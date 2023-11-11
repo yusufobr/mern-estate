@@ -1,7 +1,11 @@
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {useSelector} from 'react-redux';
 
 const Header = () => {
+  const {currentUser} = useSelector((state: any) => state.user);
+  console.log(currentUser);
+
   return (
     <header className="container mx-auto p-3 bg-slate-200">
       <div className="grid grid-cols-2 mx-auto items-center max-w-6xl">
@@ -24,7 +28,7 @@ const Header = () => {
           </form>
 
           <nav className="">
-            <ul className="flex gap-3 text-slate-700">
+            <ul className="flex gap-3 text-slate-700 items-center">
               <Link to="/">
                 <li className="hidden md:block cursor-pointer hover:text-slate-500">
                   Home
@@ -35,13 +39,20 @@ const Header = () => {
                   About
                 </li>
               </Link>
-              <Link to="/signin">
-                <li className="cursor-pointer hover:text-slate-500">Sign In</li>
-              </Link>
-              <Link to="/signup">
-                <li className="cursor-pointer hover:text-slate-500">Sign Up</li>
-              </Link>
-              {/* <li>Profile</li> */}
+              {!currentUser ? (
+                <>
+                  <Link to="/signin">
+                    <li className="cursor-pointer hover:text-slate-500">Sign In</li>
+                  </Link>
+                  <Link to="/signup">
+                    <li className="cursor-pointer hover:text-slate-500">Sign Up</li>
+                  </Link>
+                </>
+              ) : (
+                <Link to="/profile">
+                  <img src={currentUser.profilePicture || "https://via.placeholder.com/150"} alt="profile" className="w-8 h-8 rounded-full" />
+                </Link>
+              )}
             </ul>
           </nav>
         </div>
