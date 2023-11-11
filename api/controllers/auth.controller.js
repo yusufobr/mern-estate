@@ -6,12 +6,13 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
+  
   const newUser = new User({
     username,
     email,
     password: hashedPassword,
   });
-  console.log(hashedPassword);
+  
   try {
     await newUser.save();
     res.status(201).json({ message: "User created successfully!" });
@@ -45,3 +46,63 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
+
+export const google = async (req, res, next) => {
+  const { name, email, photo } = req.body;
+  try {
+    const validUser = await User.findOne({ email });
+    if (!validUser) {
+      const generateRaomPassword = Math.random().toString(36).slice(-8);
+      
+      const splitName = name.split(" ")
+      const generatedUsername = splitName[0] + Math.random().toString(36).slice(-4);
+
+      const newUser = new User({
+        username: generatedUsername,
+        email,
+        password: bcryptjs.hashSync(generateRaomPassword, 10),
+        profilePicture: photo,
+      });
+
+      await newUser.save();
+
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+      const userInfos = {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        profilePicture: newUser.profilePicture,
+      };
+
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(userInfos);
+
+
+    } else {
+      const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+      // add photo to user if not exist
+      if (!validUser.profilePicture || validUser.profilePicture === "") {
+        validUser.profilePicture = photo;
+        await validUser.save();
+      }
+
+      const userInfos = {
+        id: validUser._id,
+        username: validUser.username,
+        email: validUser.email,
+        profilePicture: validUser.profilePicture || photo,
+      };
+
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(userInfos);
+    }
+  } catch (error) {
+    next(error);
+  }
+}

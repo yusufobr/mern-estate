@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 const SignIn = () => {
 
@@ -69,6 +70,7 @@ const SignIn = () => {
         >
           {loading ? "Signing In.." : "Sign In"}
         </button>
+        <OAuth />
         <p className="text-red-600">{error}</p>
       </form>
       <span>
