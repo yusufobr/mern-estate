@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 
 const Header = () => {
   const {currentUser} = useSelector((state: any) => state.user);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   return (
     <header className="container mx-auto p-3 bg-slate-200">
