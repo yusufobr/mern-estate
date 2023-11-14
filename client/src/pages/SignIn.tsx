@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import { signInStart, signInSuccess, signInFailure, removeError } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 
 const SignIn = () => {
@@ -40,6 +40,9 @@ const SignIn = () => {
       
     } catch (error: any) {
       dispatch(signInFailure(error.response.data.message));
+      setTimeout(() => {
+        dispatch(removeError());
+      }, 3000);
     }
 
   };

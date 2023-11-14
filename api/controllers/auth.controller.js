@@ -48,8 +48,13 @@ export const signin = async (req, res, next) => {
   }
 };
 
-export const signout = (req, res) => {
-  res.clearCookie("access_token").status(200).json({ message: "Signout successfully!" });
+export const signout = (req, res, next) => {
+  try {
+    res.clearCookie("access_token").status(200).json({ message: "Signout successfully!" });
+    
+  } catch (error) {
+    next(error);
+  }
 }
 
 export const google = async (req, res, next) => {
@@ -63,7 +68,7 @@ export const google = async (req, res, next) => {
       const generatedUsername = splitName[0] + Math.random().toString(36).slice(-4);
 
       const newUser = new User({
-        username: generatedUsername,
+        username: generatedUsername.toLowerCase(),
         email,
         password: bcryptjs.hashSync(generateRaomPassword, 10),
         profilePicture: photo,
