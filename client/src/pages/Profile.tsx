@@ -6,7 +6,7 @@ import { storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   removeError,
   updateUserFailure,
@@ -17,15 +17,16 @@ import {
   deleteUserSuccess,
   signout
 } from "../redux/user/userSlice";
-import { signOut } from "firebase/auth";
+
+
+type UserProps = {
+  username?: string;
+  email?: string;
+  password?: string;
+  profilePicture?: string;
+};
 
 const Profile = () => {
-  type User = {
-    username?: string;
-    email?: string;
-    password?: string;
-    profilePicture?: string;
-  };
 
   const { currentUser, error } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState<string>("");
 
   const [successMsg, setSuccessMsg] = useState(false);
-  const [formData, setFormData] = useState<User>({
+  const [formData, setFormData] = useState<UserProps>({
     profilePicture: currentUser.profilePicture,
   });
 
@@ -208,6 +209,9 @@ const Profile = () => {
         >
           {uploading ? "Uploading..." : "Update"}
         </button>
+        <Link to="/create" className="text-purple-700 font-semibold">
+          Create a Listing
+        </Link>
         {successMsg && (
           <span className="text-green-500">Updated successfully</span>
         )}
