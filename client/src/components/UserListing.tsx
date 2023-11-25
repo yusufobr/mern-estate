@@ -36,6 +36,7 @@ const UserListing = ({ id }: User) => {
             desc={listing.description}
             adress={listing.adress}
             images={listing.images}
+            price={listing.price}
           />
           <div className="absolute top-2 right-2 flex gap-2 text-sm">
             <button className="bg-red-500 text-white px-2 py-1 rounded-md">

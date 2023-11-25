@@ -5,9 +5,10 @@ type ListingCardProps = {
     adress: string;
     images: string[];
     postedBy?: {avatar: string, username: string};
+    price?: number;
     };
 
-const ListingCard = ({title, desc, adress, images, postedBy}: ListingCardProps) => {
+const ListingCard = ({title, desc, adress, images, postedBy, price}: ListingCardProps) => {
   return (
     <div className="max-w-sm flex flex-col h-full bg-white border border-gray-200 rounded-lg shadow ">
       <a href="#">
@@ -21,14 +22,17 @@ const ListingCard = ({title, desc, adress, images, postedBy}: ListingCardProps) 
       <div className="p-5 flex flex-col justify-between h-full">
         <div>
             <a href="#">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900">
+            <p className="font-bold text-lg text-gray-600">
+                {price && price + " €"}
+            </p>
+            <h5 className="text-xl font-bold tracking-tight text-gray-900">
                 {title}
             </h5>
             </a>
             <p className="mb-3 text-sm font-light text-gray-500">
                 {adress}
             </p>
-            <p className="mb-3 font-normal text-lg text-gray-700">
+            <p className="mb-3 font-normal text-gray-700">
                 {desc}
             </p>
         </div>

@@ -41,6 +41,7 @@ const Home = () => {
               adress={listing.adress}
               images={listing.images}
               postedBy={listing.postedBy}
+              price={listing.price}
             />
           </div>
         ))}
