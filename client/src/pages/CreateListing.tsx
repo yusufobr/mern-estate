@@ -263,8 +263,9 @@ const CreateListing = () => {
                     type="number"
                     placeholder={formData.offer ? "Discounted Price" : "Price"}
                     id="discountedPrice"
-                    max={formData.regularPrice - 1}
+                    min={50}
                     onChange={handleChange}
+                    value={formData.discountedPrice}
                   />
                 {formData.offer && (
                   
@@ -273,8 +274,8 @@ const CreateListing = () => {
                   type="number"
                   placeholder="Regular Price"
                   id="regularPrice"
-                  min={50}
                   onChange={handleChange}
+                  value={formData.regularPrice}
                 />
                 )}
               </div>
@@ -292,7 +293,7 @@ const CreateListing = () => {
             <input
               ref={pictures}
               type="file"
-              accept=".png, .jpeg"
+              accept=".png, .jpeg, .jpg"
               multiple
               onChange={(e) => setImages(e.target.files!)}
               hidden

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
 
-type Listing = {
+type ListingsProps = {
   id: string;
   title: string;
   description: string;
@@ -10,7 +10,7 @@ type Listing = {
 };
 
 const Home = () => {
-  const [listings, setListings] = useState<Listing[]>([]);
+  const [listings, setListings] = useState<ListingsProps[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container mx-auto p-2 flex flex-col gap-4 mb-10">
+    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4 mb-10">
       <h1 className="text-3xl font-bold">Home</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
         {listings.map((listing: any) => (
@@ -42,6 +42,7 @@ const Home = () => {
               images={listing.images}
               postedBy={listing.postedBy}
               price={listing.price}
+              category={listing.category}
             />
           </div>
         ))}
