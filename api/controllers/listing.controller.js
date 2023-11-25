@@ -14,14 +14,14 @@ export const getAllListings = async (req, res, next) => {
   try {
     const listings = await Listing.find(
       {},
-      "name description adress images regularPrice userRef"
+      "name description adress images discountedPrice userRef"
     ).sort({ createdAt: -1 });
 
     const promises = listings.map(async (listing) => {
-        const user = await User.findById(listing.userRef);
-        if (!user) return null;
-        return { username: user.username, avatar: user.profilePicture };
-      });
+      const user = await User.findById(listing.userRef);
+      if (!user) return null;
+      return { username: user.username, avatar: user.profilePicture };
+    });
 
     const profilePictures = await Promise.all(promises);
 
@@ -36,6 +36,30 @@ export const getAllListings = async (req, res, next) => {
         postedBy: profilePictures[index],
       };
     });
+    return res.status(200).json(correctedListings);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMyListings = async (req, res, next) => {
+  try {
+    const listing = await Listing.find(
+      { userRef: req.params.id },
+      "name description adress images discountedPrice"
+    ).sort({ createdAt: -1 });
+
+    const correctedListings = listing.map((listing) => {
+      return {
+        id: listing._id,
+        title: listing.name,
+        description: listing.description,
+        adress: listing.adress,
+        images: listing.images,
+        price: listing.discountedPrice,
+      };
+    });
+
     return res.status(200).json(correctedListings);
   } catch (error) {
     next(error);

@@ -4,7 +4,7 @@ type ListingCardProps = {
     desc: string;
     adress: string;
     images: string[];
-    postedBy: {avatar: string, username: string};
+    postedBy?: {avatar: string, username: string};
     };
 
 const ListingCard = ({title, desc, adress, images, postedBy}: ListingCardProps) => {
@@ -54,9 +54,11 @@ const ListingCard = ({title, desc, adress, images, postedBy}: ListingCardProps) 
                 />
             </svg>
             </a>
-            <div title={postedBy.username} className="w-9 h-9 rounded-full">
-                <img src={postedBy.avatar} alt={postedBy.username} className="w-full h-full rounded-full object-cover" />
-            </div>
+            {postedBy && 
+                <div title={postedBy.username} className="w-9 h-9 rounded-full">
+                    <img src={postedBy.avatar} alt={postedBy.username} className="w-full h-full rounded-full object-cover" />
+                </div>
+            }
         </div>
       </div>
     </div>

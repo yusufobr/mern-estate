@@ -17,6 +17,7 @@ import {
   deleteUserSuccess,
   signout
 } from "../redux/user/userSlice";
+import UserListing from "../components/UserListing";
 
 
 type UserProps = {
@@ -234,6 +235,8 @@ const Profile = () => {
         </button>
 
       </div>
+      <h2 className="text-2xl font-bold">My Listings</h2>
+      <UserListing id={currentUser.id} />
     </div>
   );
 };
