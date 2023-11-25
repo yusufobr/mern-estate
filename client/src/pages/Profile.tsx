@@ -33,6 +33,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const picture = useRef<HTMLInputElement>(null);
+  const [showListings, setShowListings] = useState(false);
 
   const [file, setFile] = useState<File | undefined>(undefined);
   const [uploading, setUploading] = useState(false);
@@ -210,9 +211,16 @@ const Profile = () => {
         >
           {uploading ? "Uploading..." : "Update"}
         </button>
-        <Link to="/create" className="text-purple-700 font-semibold">
-          Create a Listing
-        </Link>
+        <div className="flex justify-between">
+          <Link to="/create" className="text-purple-700 font-semibold">
+            Create a Listing
+          </Link>
+          <span className="text-purple-700 font-semibold cursor-pointer"
+            onClick={() => setShowListings(!showListings)}
+          >
+            {showListings ? "Hide Listings" : "Show Listings"}
+          </span>
+        </div>
         {successMsg && (
           <span className="text-green-500">Updated successfully</span>
         )}
@@ -235,8 +243,11 @@ const Profile = () => {
         </button>
 
       </div>
-      <h2 className="text-2xl font-bold">My Listings</h2>
-      <UserListing id={currentUser.id} />
+      {showListings && (
+        <div className="flex flex-col gap-6 items-center">
+          <h2 className="text-2xl font-bold">My Listings</h2>
+          <UserListing id={currentUser.id} />
+        </div>)}
     </div>
   );
 };
