@@ -27,6 +27,15 @@ const UserListing = ({ id }: User) => {
     setListing(res.data);
   };
 
+  const deleteaListing = async (id: string) => {
+    try {
+      await axios.delete(`/api/listing/delete/${id}`);
+      setListing(listing.filter((list) => list.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 gap-2">
       {listing.map((listing: any, index: number) => (
@@ -39,7 +48,10 @@ const UserListing = ({ id }: User) => {
             price={listing.price}
           />
           <div className="absolute top-2 right-2 flex gap-2 text-sm">
-            <button className="bg-red-500 text-white px-2 py-1 rounded-md">
+            <button
+              className="bg-red-500 text-white px-2 py-1 rounded-md"
+              onClick={() => deleteaListing(listing.id)}
+            >
               Delete
             </button>
             <button className="bg-blue-500 text-white px-2 py-1 rounded-md">
@@ -48,6 +60,11 @@ const UserListing = ({ id }: User) => {
           </div>
         </div>
       ))}
+      {listing.length === 0 && (
+        <div className="col-span-2 text-center text-gray-500">
+          <p>No listings found</p>
+        </div>
+      )}
     </div>
   );
 };
