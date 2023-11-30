@@ -41,11 +41,17 @@ const UserListing = ({ id }: User) => {
       {listing.map((listing: any, index: number) => (
         <div key={index} className="relative">
           <ListingCard
+            id={listing.id}
             title={listing.title}
             desc={listing.description}
             adress={listing.adress}
             images={listing.images}
             price={listing.price}
+            category={listing.category}
+            bathrooms={listing.bathroom}
+            bedrooms={listing.bedroom}
+            furnished={listing.furnished}
+            parking={listing.parking}
           />
           <div className="absolute top-2 right-2 flex gap-2 text-sm">
             <button

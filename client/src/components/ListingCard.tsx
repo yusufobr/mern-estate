@@ -5,6 +5,7 @@ import { MdChair } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
 
 type ListingCardProps = {
+  id: string;
   title: string;
   desc: string;
   adress: string;
@@ -19,6 +20,7 @@ type ListingCardProps = {
 };
 
 const ListingCard = ({
+  id,
   title,
   desc,
   adress,
@@ -62,13 +64,8 @@ const ListingCard = ({
         </Carousel>
       </div>
       <div className="p-5 flex flex-col justify-between h-full">
-        {/* <div className="-mt-3 mb-2">
-          <span className="text-gray-700 text-xs font-medium px-2 py-[2px] rounded-full bg-slate-300  capitalize tracking-widest italic">
-            {category}
-          </span>
-        </div> */}
         <div>
-          <a href="#">
+          <a href={`/post/${id}`}>
             <p className="font-semibold text-gray-600">
               {price && price + " €"}
               {category === "rent" ? (
@@ -117,12 +114,18 @@ const ListingCard = ({
               </div>
             )}
             {furnished && (
-              <div title="Furnished">
+              <div
+                className="flex gap-1 items-center px-1 border rounded"
+                title="Furnished"
+              >
                 <MdChair size={16} className="text-gray-600" />
               </div>
             )}
             {parking && (
-              <div title="Parking">
+              <div
+                className="flex gap-1 items-center px-1 border rounded"
+                title="Parking"
+              >
                 <FaParking size={16} className="text-gray-600" />
               </div>
             )}

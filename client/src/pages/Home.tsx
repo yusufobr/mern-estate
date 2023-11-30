@@ -37,6 +37,7 @@ const Home = () => {
         {listings.map((listing: any) => (
           <div key={listing.id}>
             <ListingCard
+              id={listing.id}
               title={listing.title}
               desc={listing.description}
               adress={listing.adress}
