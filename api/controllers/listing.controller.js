@@ -14,7 +14,7 @@ export const getAllListings = async (req, res, next) => {
   try {
     const listings = await Listing.find(
       {},
-      "name description adress images discountedPrice type userRef"
+      "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished"
     ).sort({ createdAt: -1 });
 
     const promises = listings.map(async (listing) => {
@@ -34,6 +34,10 @@ export const getAllListings = async (req, res, next) => {
         images: listing.images,
         price: listing.discountedPrice,
         category: listing.type,
+        bedroom: listing.bedrooms,
+        bathroom: listing.bathrooms,
+        parking: listing.parking,
+        furnished: listing.furnished,
         postedBy: profilePictures[index],
       };
     });

@@ -22,6 +22,7 @@ const Home = () => {
     try {
       const res = await axios.get("api/listing/all");
       setListings(res.data);
+      console.log(res.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -43,6 +44,10 @@ const Home = () => {
               postedBy={listing.postedBy}
               price={listing.price}
               category={listing.category}
+              bathrooms={listing.bathroom}
+              bedrooms={listing.bedroom}
+              furnished={listing.furnished}
+              parking={listing.parking}
             />
           </div>
         ))}

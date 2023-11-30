@@ -1,14 +1,21 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { FaBath, FaBed, FaLocationDot } from "react-icons/fa6";
+import { MdChair } from "react-icons/md";
+import { FaParking } from "react-icons/fa";
 
 type ListingCardProps = {
   title: string;
   desc: string;
   adress: string;
-  category?: "rent" | "sale";
   images: string[];
   postedBy?: { avatar: string; username: string };
   price?: number;
+  category?: "rent" | "sale";
+  bedrooms: number;
+  bathrooms: number;
+  furnished: boolean;
+  parking: boolean;
 };
 
 const ListingCard = ({
@@ -19,6 +26,10 @@ const ListingCard = ({
   postedBy,
   price,
   category,
+  bedrooms,
+  bathrooms,
+  furnished,
+  parking,
 }: ListingCardProps) => {
   return (
     <div className="max-w-sm flex flex-col h-full bg-white border border-gray-200 rounded-lg shadow ">
@@ -51,55 +62,73 @@ const ListingCard = ({
         </Carousel>
       </div>
       <div className="p-5 flex flex-col justify-between h-full">
+        {/* <div className="-mt-3 mb-2">
+          <span className="text-gray-700 text-xs font-medium px-2 py-[2px] rounded-full bg-slate-300  capitalize tracking-widest italic">
+            {category}
+          </span>
+        </div> */}
         <div>
           <a href="#">
-            <p className="font-bold text-lg text-gray-600">
+            <p className="font-semibold text-gray-600">
               {price && price + " €"}
               {category === "rent" ? (
-                <span className="text-sm font-normal text-gray-500">/month</span>
+                <span className="text-sm font-meduim text-gray-400 italic capitalize">
+                  {" "}
+                  /month
+                </span>
               ) : (
                 ""
               )}
             </p>
             <h5
-              className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1"
+              className="font-semibold text-lg tracking-tight text-gray-700 line-clamp-1"
               title={title}
             >
               {title}
             </h5>
           </a>
-          <p
-            className="mb-3 text-sm font-light text-gray-800 line-clamp-1"
-            title={adress}
-          >
-            {adress}
-          </p>
-          <p className="mb-5 font-normal text-gray-600 line-clamp-2">{desc}</p>
+          <div className="flex gap-1 mb-3 items-center">
+            <FaLocationDot size={10} className="text-gray-600" />
+            <p
+              className="text-sm font-light text-gray-800 line-clamp-1"
+              title={adress}
+            >
+              {adress}
+            </p>
+          </div>
+          <p className="mb-5 text-gray-600 line-clamp-2">{desc}</p>
         </div>
         <div className="flex justify-between items-center">
-          <a
-            href="#"
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
-          >
-            Read more
-            <svg
-              className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
+          <div className="flex items-center gap-2 text-sm font-semibold">
+            <div
+              className="flex gap-1 items-center px-1 border rounded"
+              title="bedrooms"
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </a>
+              <span>{bedrooms}</span>
+              <FaBed size={16} className="text-gray-600" />
+            </div>
+            {bathrooms > 0 && (
+              <div
+                className="flex gap-1 items-center px-1 border rounded"
+                title="bathrooms"
+              >
+                <span>{bathrooms}</span>
+                <FaBath size={14} className="text-gray-600" />
+              </div>
+            )}
+            {furnished && (
+              <div title="Furnished">
+                <MdChair size={16} className="text-gray-600" />
+              </div>
+            )}
+            {parking && (
+              <div title="Parking">
+                <FaParking size={16} className="text-gray-600" />
+              </div>
+            )}
+          </div>
           {postedBy && (
-            <div title={postedBy.username} className="w-9 h-9 rounded-full">
+            <div title={postedBy.username} className="w-6 h-6 rounded-full">
               <img
                 src={postedBy.avatar}
                 alt={postedBy.username}
