@@ -1,5 +1,6 @@
 import Listing from "../models/listing.model.js";
 import User from "../models/user.model.js";
+import errorHandler from "../utils/error.js";
 
 export const createListing = async (req, res, next) => {
   try {
@@ -42,6 +43,31 @@ export const getAllListings = async (req, res, next) => {
       };
     });
     return res.status(200).json(correctedListings);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getSinglePost = async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id, "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished");
+    if (!listing) {
+      return next(errorHandler(404, 'Listing not found!'));
+    };
+    const correctedListing = {
+      id: listing._id,
+      title: listing.name,
+      description: listing.description,
+      adress: listing.adress,
+      images: listing.images,
+      price: listing.discountedPrice,
+      category: listing.type,
+      bedroom: listing.bedrooms,
+      bathroom: listing.bathrooms,
+      parking: listing.parking,
+      furnished: listing.furnished,
+    };
+    return res.status(200).json(correctedListing);
   } catch (error) {
     next(error);
   }
