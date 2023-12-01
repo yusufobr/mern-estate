@@ -257,26 +257,31 @@ const CreateListing = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex gap-2">
-              <input
+              <div className="flex flex-wrap gap-6">
+                <div className="flex gap-2 items-center">
+                  <label htmlFor="discountedPrice">{formData.offer ? "Discounted Price :" : "Price :"}</label>
+                  <input
+                        className="border p-2 rounded-md focus:outline-none"
+                        type="number"
+                        placeholder={formData.offer ? "Discounted Price" : "Price"}
+                        id="discountedPrice"
+                        min={50}
+                        onChange={handleChange}
+                        value={formData.discountedPrice}
+                      />
+                </div>
+                {formData.offer && (
+                  <div className="flex gap-2 items-center">
+                    <label htmlFor="regularPrice">Regular Price :</label>
+                    <input
                     className="border p-2 rounded-md focus:outline-none"
                     type="number"
-                    placeholder={formData.offer ? "Discounted Price" : "Price"}
-                    id="discountedPrice"
-                    min={50}
+                    placeholder="Regular Price"
+                    id="regularPrice"
                     onChange={handleChange}
-                    value={formData.discountedPrice}
+                    value={formData.regularPrice}
                   />
-                {formData.offer && (
-                  
-                  <input
-                  className="border p-2 rounded-md focus:outline-none"
-                  type="number"
-                  placeholder="Regular Price"
-                  id="regularPrice"
-                  onChange={handleChange}
-                  value={formData.regularPrice}
-                />
+                  </div>
                 )}
               </div>
               <div className="flex gap-2 items-center">
