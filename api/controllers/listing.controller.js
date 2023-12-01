@@ -24,7 +24,7 @@ export const getAllListings = async (req, res, next) => {
       return { username: user.username, avatar: user.profilePicture };
     });
 
-    const profilePictures = await Promise.all(promises);
+    const postedByInfos = await Promise.all(promises);
 
     const correctedListings = listings.map((listing, index) => {
       return {
@@ -39,7 +39,7 @@ export const getAllListings = async (req, res, next) => {
         bathroom: listing.bathrooms,
         parking: listing.parking,
         furnished: listing.furnished,
-        postedBy: profilePictures[index],
+        postedBy: postedByInfos[index],
       };
     });
     return res.status(200).json(correctedListings);
@@ -50,10 +50,17 @@ export const getAllListings = async (req, res, next) => {
 
 export const getSinglePost = async (req, res, next) => {
   try {
-    const listing = await Listing.findById(req.params.id, "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished");
+    const listing = await Listing.findById(
+      req.params.id,
+      "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished"
+    );
+    
     if (!listing) {
-      return next(errorHandler(404, 'Listing not found!'));
-    };
+      return next(errorHandler(404, "Listing not found!"));
+    }
+
+    const user = await User.findById(listing.userRef);
+
     const correctedListing = {
       id: listing._id,
       title: listing.name,
@@ -66,6 +73,7 @@ export const getSinglePost = async (req, res, next) => {
       bathroom: listing.bathrooms,
       parking: listing.parking,
       furnished: listing.furnished,
+      postedBy: { username: user.username, avatar: user.profilePicture },
     };
     return res.status(200).json(correctedListing);
   } catch (error) {
@@ -97,12 +105,43 @@ export const getMyListings = async (req, res, next) => {
   }
 };
 
-
 export const deleteListing = async (req, res, next) => {
-    try {
-        await Listing.findByIdAndDelete(req.params.id);
-        res.status(200).json({ message: "Listing has been deleted successfully!" })
-    } catch (error) {
-        next(error);
-    }
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(404, "Listing not found!"));
+  };
+  if (req.user.id !== listing.userRef) {
+    return next(
+      errorHandler(403, "You are not authorized to delete this listing!")
+    );
+  };
+  try {
+    await Listing.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Listing has been deleted successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateListing = async (req, res, next) => {
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(404, "Listing not found!"));
+  }
+  if (req.user.id !== listing.userRef) {
+    return next(
+      errorHandler(403, "You are not authorized to update this listing!")
+    );
+  }
+
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    return res.status(200).json(updatedListing);
+  } catch (error) {
+    next(error);
+  }
 };
