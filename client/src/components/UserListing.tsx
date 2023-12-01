@@ -53,7 +53,7 @@ const UserListing = ({ id }: User) => {
             furnished={listing.furnished}
             parking={listing.parking}
           />
-          <div className="absolute top-2 right-2 flex gap-2 text-sm">
+          <div className="absolute top-2 right-2 z-10 flex gap-2 text-sm">
             <button
               className="bg-red-500 text-white px-2 py-1 rounded-md"
               onClick={() => deleteaListing(listing.id)}
