@@ -132,7 +132,7 @@ const Profile = () => {
 
   const handleSignOut = async () => {
     try {
-      await axios.delete(`/api/user/delete/${currentUser.id}`);
+      await axios.post('/api/auth/signout');
       dispatch(signout());
       
     } catch (error: any) {
