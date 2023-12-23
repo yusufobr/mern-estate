@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ListingCard from "./ListingCard";
+import { useNavigate } from "react-router-dom";
 
 type Listing = {
   id: string;
@@ -17,6 +18,7 @@ type User = {
 
 const UserListing = ({ id }: User) => {
   const [listing, setListing] = useState<Listing[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchListing(id);
@@ -60,7 +62,10 @@ const UserListing = ({ id }: User) => {
             >
               Delete
             </button>
-            <button className="bg-blue-500 text-white px-2 py-1 rounded-md">
+            <button 
+              className="bg-blue-500 text-white px-2 py-1 rounded-md"
+              onClick={() => navigate(`/update/${listing.id}`)}
+            >
               Edit
             </button>
           </div>

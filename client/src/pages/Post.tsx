@@ -6,6 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaBath, FaBed, FaLocationDot } from "react-icons/fa6";
 import { MdChair } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 
 type PostProps = {
   id: string;
@@ -65,13 +66,13 @@ const Post = () => {
                   key={index}
                   src={image}
                   alt=""
-                  className="w-full h-96 object-cover"
+                  className="h-64 md:h-96 object-cover"
                   loading="lazy"
                 />
               ))}
           </Carousel>
 
-          <div className="container mx-auto max-w-screen-xl grid grid-cols-3 gap-8">
+          <div className="container mx-auto max-w-screen-xl flex flex-col mb-8 md:grid md:grid-cols-3 gap-8">
             <div className="col-span-2 p-8 rounded-lg bg-gray-50 flex flex-col gap-4">
               <h1 className="text-3xl font-bold">{post?.title}</h1>
               <div className="flex text-lg gap-2 items-center">
@@ -117,16 +118,57 @@ const Post = () => {
               <p className="text-lg">{post?.description}</p>
               <p className="text-lg">{post?.category}</p>
             </div>
-            <div className="flex flex-col p-8 rounded-lg bg-gray-50">
-              <p>
-                {post?.price}
-                {post?.category === "rent" && (
-                  <span className="text-sm font-meduim text-gray-400 italic capitalize">
-                    {" "}
-                    /month
+            <div className="flex flex-col gap-3 rounded-lg overflow-hidden bg-gray-50 pb-8">
+              <div className="bg-gray-400 text-white font-semibold text-3xl p-7">
+                <p>
+                  {post?.price}
+                  <span className="text-sm font-meduim  italic capitalize">
+                    {post?.category === "rent" ? " $/month" : " $"}
                   </span>
-                )}
-              </p>
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 p-4">
+                <div className="capitalize text-lg text-center">comments :</div>
+                {Array.from({ length: 3 }, (_, i) => {
+                  return (
+                    <div key={i} className="flex gap-3 items-start">
+                      <img
+                        src="https://via.placeholder.com/150"
+                        alt=""
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-sm font-semibold">username</p>
+                        <p className="text-sm">
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Perspiciatis, et?
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="flex flex-col gap-2 py-3 px-2">
+                  <div className="capitalize text-center">add a comment :</div>
+                  <div className="flex flex-col gap-2">
+                    <textarea
+                      name=""
+                      id=""
+                      cols={30}
+                      rows={2}
+                      className="border rounded p-2"
+                    ></textarea>
+                    <button className="bg-gray-600 text-white font-semibold py-2 rounded">
+                      comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3 items-center px-4">
+                <button className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 capitalize font-semibold py-2 rounded w-full">
+                  <CiHeart />
+                  add to favorites
+                </button>
+              </div>
             </div>
           </div>
         </div>

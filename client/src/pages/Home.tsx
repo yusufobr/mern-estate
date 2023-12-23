@@ -31,7 +31,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4 mb-10">
+    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4 my-10">
       <h1 className="text-3xl font-bold">Home</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
         {listings.map((listing: any) => (
