@@ -1,14 +1,29 @@
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const {currentUser} = useSelector((state: any) => state.user);
+  const [isSticky, setIsSticky] = useState(false);
   // console.log(currentUser);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      setIsSticky(scrollTop > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="container mx-auto p-3 bg-slate-200">
-      <div className="grid grid-cols-2 mx-auto items-center max-w-6xl">
+    <header className={`z-50 w-full p-3 bg-slate-200 ${isSticky ? "sticky top-0" : ""}`}>
+      <div className="container p-2 grid grid-cols-2 mx-auto items-center max-w-screen-xl">
         <div>
           <Link to="/">
             <div className="text-purple-700 uppercase font-bold">logo</div>
@@ -50,7 +65,7 @@ const Header = () => {
                 </>
               ) : (
                 <Link to="/profile">
-                  <img src={currentUser.profilePicture || "https://via.placeholder.com/150"} alt="profile" className="w-8 h-8 rounded-full" />
+                  <img src={currentUser.profilePicture || "https://via.placeholder.com/150"} alt="profile" className="w-8 h-8 rounded-full object-cover" />
                 </Link>
               )}
             </ul>
