@@ -8,6 +8,7 @@ import { MdChair } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { useSelector } from "react-redux";
+import { FcLike } from "react-icons/fc";
 
 type PostProps = {
   id: string;
@@ -35,6 +36,11 @@ const Post = () => {
     axios.get(`/api/listing/post/${id}`).then((res) => {
       setPost(res.data);
     });
+    axios
+      .post("/api/like/check", { user: currentUser.id, listing: id })
+      .then((res) => {
+        setLike(res.data);
+      });
   }, [like]);
 
   const addLike = async () => {
@@ -44,6 +50,16 @@ const Post = () => {
     });
     if (res.status === 201) {
       setLike(true);
+    }
+  };
+
+  const removeLike = async () => {
+    const res = await axios.post("/api/like/remove", {
+      user: currentUser.id,
+      listing: id,
+    });
+    if (res.status === 200) {
+      setLike(false);
     }
   };
 
@@ -179,13 +195,23 @@ const Post = () => {
                 </div>
               </div>
               <div className="flex gap-3 items-center px-4">
-                <button 
-                  className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 capitalize font-semibold py-2 rounded w-full"
-                  onClick={() => addLike()}  
-                >
-                  <CiHeart color={like ? "red" : ""} />
-                  {like ? "already liked" : "add to favorites"}
-                </button>
+                {like ? (
+                  <button
+                    className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-400 capitalize font-semibold py-2 rounded w-full"
+                    onClick={() => removeLike()}
+                  >
+                    <FcLike />
+                    Added to favorites
+                  </button>
+                ) : (
+                  <button
+                    className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 capitalize font-semibold py-2 rounded w-full"
+                    onClick={() => addLike()}
+                  >
+                    <CiHeart />
+                    Add to favorites
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -35,3 +35,18 @@ export const removeLike = async (req, res, next) => {
     next(error);
   }
 };
+
+// check if i liked the listing
+
+export const checkLike = async (req, res, next) => {
+  try {
+    const { user, listing } = req.body;
+    const findLike = await Like.findOne({ user, listing });
+    if (!findLike) {
+      return res.status(200).json(false);
+    }
+    return res.status(200).json(true);
+  } catch (error) {
+    next(error);
+  }
+};
