@@ -7,7 +7,7 @@ export const addLike = async (req, res, next) => {
     const existingLike = await Like.findOne({ user, listing });
 
     if (existingLike) {
-      return res.status(400).json("You already liked this listing");
+      return res.status(208).json("You already liked this listing");
     }
 
     const like = await Like.create({

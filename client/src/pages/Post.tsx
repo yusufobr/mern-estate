@@ -7,6 +7,7 @@ import { FaBath, FaBed, FaLocationDot } from "react-icons/fa6";
 import { MdChair } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
+import { useSelector } from "react-redux";
 
 type PostProps = {
   id: string;
@@ -21,17 +22,30 @@ type PostProps = {
   bedroom: number;
   furnished: boolean;
   parking: boolean;
+  likes: number;
 };
 
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState<PostProps>();
+  const [like, setLike] = useState<boolean>(false);
+  const { currentUser } = useSelector((state: any) => state.user);
 
   useEffect(() => {
     axios.get(`/api/listing/post/${id}`).then((res) => {
       setPost(res.data);
     });
-  }, []);
+  }, [like]);
+
+  const addLike = async () => {
+    const res = await axios.post("/api/like/add", {
+      user: currentUser.id,
+      listing: id,
+    });
+    if (res.status === 201) {
+      setLike(true);
+    }
+  };
 
   return (
     <>
@@ -117,6 +131,7 @@ const Post = () => {
 
               <p className="text-lg">{post?.description}</p>
               <p className="text-lg">{post?.category}</p>
+              <span>{post.likes}</span>
             </div>
             <div className="flex flex-col gap-3 rounded-lg overflow-hidden bg-gray-50 pb-8">
               <div className="bg-gray-400 text-white font-semibold text-3xl p-7">
@@ -164,9 +179,12 @@ const Post = () => {
                 </div>
               </div>
               <div className="flex gap-3 items-center px-4">
-                <button className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 capitalize font-semibold py-2 rounded w-full">
-                  <CiHeart />
-                  add to favorites
+                <button 
+                  className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 capitalize font-semibold py-2 rounded w-full"
+                  onClick={() => addLike()}  
+                >
+                  <CiHeart color={like ? "red" : ""} />
+                  {like ? "already liked" : "add to favorites"}
                 </button>
               </div>
             </div>

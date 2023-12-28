@@ -1,3 +1,4 @@
+import Like from "../models/likes.model.js";
 import Listing from "../models/listing.model.js";
 import User from "../models/user.model.js";
 import errorHandler from "../utils/error.js";
@@ -61,6 +62,8 @@ export const getSinglePost = async (req, res, next) => {
 
     const user = await User.findById(listing.userRef);
 
+    const likes = await Like.find({ listing: req.params.id });
+
     const correctedListing = {
       id: listing._id,
       title: listing.name,
@@ -74,6 +77,7 @@ export const getSinglePost = async (req, res, next) => {
       parking: listing.parking,
       furnished: listing.furnished,
       postedBy: { username: user.username, avatar: user.profilePicture },
+      likes: likes.length || 0,
     };
     return res.status(200).json(correctedListing);
   } catch (error) {

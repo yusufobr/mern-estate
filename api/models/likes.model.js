@@ -16,6 +16,8 @@ const likeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+likeSchema.index({ user: 1, listing: 1 }, { unique: true });
+
 const Like = mongoose.model("Like", likeSchema);
 
 export default Like;
