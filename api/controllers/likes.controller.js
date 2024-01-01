@@ -50,3 +50,18 @@ export const checkLike = async (req, res, next) => {
     next(error);
   }
 };
+
+export const favorites = async (req, res, next) => {
+  try {
+    const { user } = req.body;
+    const findFavorites = await Like.find({ user }, "listing").sort({ createdAt: -1 });
+    if (findFavorites.length === 0) {
+      return res.status(200).json("You have no favorites");
+    }
+    const favorites = findFavorites.map(like => like.listing);
+    return res.status(200).json(favorites);
+
+  } catch (error) {
+    next(error);
+  }
+};

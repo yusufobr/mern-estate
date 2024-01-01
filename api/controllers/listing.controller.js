@@ -55,7 +55,7 @@ export const getSinglePost = async (req, res, next) => {
       req.params.id,
       "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished"
     );
-    
+
     if (!listing) {
       return next(errorHandler(404, "Listing not found!"));
     }
@@ -109,16 +109,42 @@ export const getMyListings = async (req, res, next) => {
   }
 };
 
+export const getSpecificListings = async (req, res, next) => {
+  try {
+    // listingklist is an array of listing ids
+    const { listingList } = req.body;
+    const listing = await Listing.find(
+      { _id: { $in: listingList } },
+      "name description adress images discountedPrice"
+    ).sort({ createdAt: -1 });
+
+    const correctedListings = listing.map((listing) => {
+      return {
+        id: listing._id,
+        title: listing.name,
+        description: listing.description,
+        adress: listing.adress,
+        images: listing.images,
+        price: listing.discountedPrice,
+      };
+    });
+
+    return res.status(200).json(correctedListings);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteListing = async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
   if (!listing) {
     return next(errorHandler(404, "Listing not found!"));
-  };
+  }
   if (req.user.id !== listing.userRef) {
     return next(
       errorHandler(403, "You are not authorized to delete this listing!")
     );
-  };
+  }
   try {
     await Listing.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Listing has been deleted successfully!" });
