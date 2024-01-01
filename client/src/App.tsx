@@ -9,6 +9,7 @@ import PrivateRoute from './components/PrivateRoute';
 import CreateListing from './pages/CreateListing';
 import Post from './pages/Post';
 import UpdateListing from './components/UpdateListing';
+import Favorites from './pages/Favorites';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/create" element={<CreateListing/>} />
           <Route path="/update/:id" element={<UpdateListing/>} />
+          <Route path="/favorites" element={<Favorites/>} />
         </Route>
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/signup" element={<SignUp/>} />

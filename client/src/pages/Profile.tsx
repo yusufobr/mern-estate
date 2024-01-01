@@ -211,11 +211,14 @@ const Profile = () => {
         >
           {uploading ? "Uploading..." : "Update"}
         </button>
-        <div className="flex justify-between">
+        <div className="flex justify-between text-purple-700 font-semibold">
           <Link to="/create" className="text-purple-700 font-semibold">
             Create a Listing
           </Link>
-          <span className="text-purple-700 font-semibold cursor-pointer"
+          <Link to="/favorites">
+            My Favorites
+          </Link>
+          <span className=" cursor-pointer"
             onClick={() => setShowListings(!showListings)}
           >
             {showListings ? "Hide Listings" : "Show Listings"}

@@ -3,6 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaBath, FaBed, FaLocationDot } from "react-icons/fa6";
 import { MdChair, MdImageNotSupported } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 type ListingCardProps = {
   id: string;
@@ -71,7 +72,7 @@ const ListingCard = ({
       </div>
       <div className="p-5 flex flex-col justify-between h-full">
         <div>
-          <a href={`/post/${id}`}>
+          <Link to={`/post/${id}`}>
             <p className="font-semibold text-gray-600">
               {price && price + " €"}
               {category === "rent" ? (
@@ -89,7 +90,7 @@ const ListingCard = ({
             >
               {title}
             </h5>
-          </a>
+          </Link>
           <div className="flex gap-1 mb-3 items-center">
             <FaLocationDot size={10} className="text-gray-600" />
             <p

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
@@ -194,7 +194,7 @@ const Post = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3 items-center px-4">
+              <div className="flex flex-col gap-3 items-center px-4">
                 {like ? (
                   <button
                     className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-400 capitalize font-semibold py-2 rounded w-full"
@@ -212,6 +212,7 @@ const Post = () => {
                     Add to favorites
                   </button>
                 )}
+                <Link to="/favorites" className="text-sm font-bold text-gray-600">Show My Favorites</Link>
               </div>
             </div>
           </div>
