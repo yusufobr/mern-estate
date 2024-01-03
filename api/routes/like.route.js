@@ -1,8 +1,8 @@
-import expres from "express";
+import express from "express";
 import { verifyToken } from "../utils/verifyToken.js";
 import { addLike, checkLike, favorites, removeLike } from "../controllers/likes.controller.js";
 
-const router = expres.Router();
+const router = express.Router();
 
 router.post("/add", verifyToken, addLike);
 router.post("/remove", verifyToken, removeLike);

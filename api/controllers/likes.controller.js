@@ -37,7 +37,6 @@ export const removeLike = async (req, res, next) => {
 };
 
 // check if i liked the listing
-
 export const checkLike = async (req, res, next) => {
   try {
     const { user, listing } = req.body;
