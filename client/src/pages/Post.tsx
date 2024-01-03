@@ -147,7 +147,10 @@ const Post = () => {
 
               <p className="text-lg">{post?.description}</p>
               <p className="text-lg">{post?.category}</p>
-              <span>{post.likes}</span>
+              <div>
+                <span>{post.likes}</span>
+                <span>{post.likes > 1 ? " Likes" : " Like" }</span>
+              </div>
             </div>
             <div className="flex flex-col gap-3 rounded-lg overflow-hidden bg-gray-50 pb-8">
               <div className="bg-gray-400 text-white font-semibold text-3xl p-7">
@@ -197,15 +200,15 @@ const Post = () => {
               <div className="flex flex-col gap-3 items-center px-4">
                 {like ? (
                   <button
-                    className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-400 capitalize font-semibold py-2 rounded w-full"
+                    className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-400 font-semibold py-2 rounded w-full"
                     onClick={() => removeLike()}
                   >
                     <FcLike />
-                    Added to favorites
+                    Remove
                   </button>
                 ) : (
                   <button
-                    className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 capitalize font-semibold py-2 rounded w-full"
+                    className="flex gap-2 items-center justify-center border-2 border-gray-200 text-gray-700 font-semibold py-2 rounded w-full"
                     onClick={() => addLike()}
                   >
                     <CiHeart />
