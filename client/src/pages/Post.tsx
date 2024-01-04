@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -31,6 +31,7 @@ const Post = () => {
   const [post, setPost] = useState<PostProps>();
   const [like, setLike] = useState<boolean>(false);
   const { currentUser } = useSelector((state: any) => state.user);
+  const [comment, setComment] = useState<string>("");
 
   useEffect(() => {
     axios.get(`/api/listing/post/${id}`).then((res) => {
@@ -60,6 +61,19 @@ const Post = () => {
     });
     if (res.status === 200) {
       setLike(false);
+    }
+  };
+
+  const addComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await axios.post("/api/comment/add", {
+      user: currentUser.id,
+      listing: id,
+      comment,
+    });
+    console.log(res.status)
+    if (res.status === 201) {
+      setComment("");
     }
   };
 
@@ -149,7 +163,7 @@ const Post = () => {
               <p className="text-lg">{post?.category}</p>
               <div>
                 <span>{post.likes}</span>
-                <span>{post.likes > 1 ? " Likes" : " Like" }</span>
+                <span>{post.likes > 1 ? " Likes" : " Like"}</span>
               </div>
             </div>
             <div className="flex flex-col gap-3 rounded-lg overflow-hidden bg-gray-50 pb-8">
@@ -183,18 +197,21 @@ const Post = () => {
                 })}
                 <div className="flex flex-col gap-2 py-3 px-2">
                   <div className="capitalize text-center">add a comment :</div>
-                  <div className="flex flex-col gap-2">
+                  <form onSubmit={addComment} className="flex flex-col gap-2">
                     <textarea
-                      name=""
-                      id=""
+                      value={comment}
                       cols={30}
                       rows={2}
                       className="border rounded p-2"
+                      onChange={(e) => setComment(e.target.value)}
                     ></textarea>
-                    <button className="bg-gray-600 text-white font-semibold py-2 rounded">
+                    <button
+                      type="submit"
+                      className="bg-gray-600 text-white font-semibold py-2 rounded"
+                    >
                       comment
                     </button>
-                  </div>
+                  </form>
                 </div>
               </div>
               <div className="flex flex-col gap-3 items-center px-4">
@@ -215,7 +232,12 @@ const Post = () => {
                     Add to favorites
                   </button>
                 )}
-                <Link to="/favorites" className="text-sm font-bold text-gray-600">Show My Favorites</Link>
+                <Link
+                  to="/favorites"
+                  className="text-sm font-bold text-gray-600"
+                >
+                  Show My Favorites
+                </Link>
               </div>
             </div>
           </div>

@@ -115,7 +115,7 @@ export const getSpecificListings = async (req, res, next) => {
     const { listingList } = req.body;
     const listing = await Listing.find(
       { _id: { $in: listingList } },
-      "name description adress images discountedPrice"
+      "name description adress images discountedPrice bedrooms bathrooms parking furnished"
     ).sort({ createdAt: -1 });
 
     const correctedListings = listing.map((listing) => {
@@ -126,6 +126,10 @@ export const getSpecificListings = async (req, res, next) => {
         adress: listing.adress,
         images: listing.images,
         price: listing.discountedPrice,
+        bedroom: listing.bedrooms,
+        bathroom: listing.bathrooms,
+        parking: listing.parking,
+        furnished: listing.furnished,
       };
     });
 

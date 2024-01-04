@@ -28,6 +28,9 @@ export const removeLike = async (req, res, next) => {
     if (!findLike) {
       return res.status(404).json("Like not found");
     }
+    if(findLike.user != user) {
+      return res.status(401).json("You can remove only your likes");
+    }
     await Like.findByIdAndDelete(findLike._id);
     return res.status(200).json("Like removed");
 
