@@ -32,6 +32,7 @@ const Post = () => {
   const [like, setLike] = useState<boolean>(false);
   const { currentUser } = useSelector((state: any) => state.user);
   const [comment, setComment] = useState<string>("");
+  const [comments, setComments] = useState<any[]>([]);
 
   useEffect(() => {
     axios.get(`/api/listing/post/${id}`).then((res) => {
@@ -43,6 +44,20 @@ const Post = () => {
         setLike(res.data);
       });
   }, [like]);
+
+  useEffect(() => {
+    fetchComments()
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      const res = await axios.get(`/api/comment/get?listingId=${id}&limit=5`);
+      setComments(res.data);
+      console.log(res.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const addLike = async () => {
     const res = await axios.post("/api/like/add", {
@@ -71,9 +86,9 @@ const Post = () => {
       listing: id,
       comment,
     });
-    console.log(res.status)
     if (res.status === 201) {
       setComment("");
+      fetchComments();
     }
   };
 
@@ -177,29 +192,28 @@ const Post = () => {
               </div>
               <div className="flex flex-col gap-2 p-4">
                 <div className="capitalize text-lg text-center">comments :</div>
-                {Array.from({ length: 3 }, (_, i) => {
-                  return (
-                    <div key={i} className="flex gap-3 items-start">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt=""
-                        className="w-8 h-8 rounded-full object-cover"
-                      />
-                      <div className="flex flex-col gap-1">
-                        <p className="text-sm font-semibold">username</p>
-                        <p className="text-sm">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Perspiciatis, et?
-                        </p>
-                      </div>
+                {comments.length === 0 && <div className="text-center">No comments</div>}
+                {comments.map((comment) => (
+                  <div key={comment._id} className="flex gap-3 items-start">
+                    <img
+                      src={comment.userDetails.profilePicture}
+                      alt=""
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <div className="flex flex-col gap-1">
+                      <p className="text-sm font-semibold">{comment.userDetails.username}</p>
+                      <p className="text-sm">
+                        {comment.comment}
+                      </p>
                     </div>
-                  );
-                })}
+                </div>
+                ))}
                 <div className="flex flex-col gap-2 py-3 px-2">
                   <div className="capitalize text-center">add a comment :</div>
                   <form onSubmit={addComment} className="flex flex-col gap-2">
                     <textarea
                       value={comment}
+                      placeholder="Add a comment"
                       cols={30}
                       rows={2}
                       className="border rounded p-2"
