@@ -9,6 +9,7 @@ import { FaParking } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { FcLike } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 type PostProps = {
   id: string;
@@ -33,39 +34,46 @@ const Post = () => {
   const { currentUser } = useSelector((state: any) => state.user);
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<any[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`/api/listing/post/${id}`).then((res) => {
       setPost(res.data);
     });
-    axios
-      .post("/api/like/check", { user: currentUser.id, listing: id })
-      .then((res) => {
-        setLike(res.data);
-      });
+    if (currentUser) {
+      axios
+        .post("/api/like/check", { user: currentUser.id, listing: id })
+        .then((res) => {
+          setLike(res.data);
+        });
+    }
   }, [like]);
 
   useEffect(() => {
-    fetchComments()
+    fetchComments();
   }, []);
 
   const fetchComments = async () => {
     try {
       const res = await axios.get(`/api/comment/get?listingId=${id}&limit=5`);
       setComments(res.data);
-      console.log(res.data)
+      console.log(res.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const addLike = async () => {
-    const res = await axios.post("/api/like/add", {
-      user: currentUser.id,
-      listing: id,
-    });
-    if (res.status === 201) {
-      setLike(true);
+    if (currentUser) {
+      const res = await axios.post("/api/like/add", {
+        user: currentUser.id,
+        listing: id,
+      });
+      if (res.status === 201) {
+        setLike(true);
+      }
+    } else {
+      navigate("/signin");
     }
   };
 
@@ -80,15 +88,19 @@ const Post = () => {
   };
 
   const addComment = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const res = await axios.post("/api/comment/add", {
-      user: currentUser.id,
-      listing: id,
-      comment,
-    });
-    if (res.status === 201) {
-      setComment("");
-      fetchComments();
+    if (currentUser) {
+      e.preventDefault();
+      const res = await axios.post("/api/comment/add", {
+        user: currentUser.id,
+        listing: id,
+        comment,
+      });
+      if (res.status === 201) {
+        setComment("");
+        fetchComments();
+      }
+    } else {
+      navigate("/signin");
     }
   };
 
@@ -192,21 +204,26 @@ const Post = () => {
               </div>
               <div className="flex flex-col gap-2 p-4">
                 <div className="capitalize text-lg text-center">comments :</div>
-                {comments.length === 0 && <div className="text-center">No comments</div>}
+                {comments.length === 0 && (
+                  <div className="text-center">No comments yet</div>
+                )}
                 {comments.map((comment) => (
-                  <div key={comment._id} className="flex gap-3 items-start">
-                    <img
-                      src={comment.userDetails.profilePicture}
-                      alt=""
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-sm font-semibold">{comment.userDetails.username}</p>
-                      <p className="text-sm">
-                        {comment.comment}
-                      </p>
+                  <>
+                    <div key={comment._id} className="flex gap-3 items-start">
+                      <img
+                        src={comment.userDetails.profilePicture}
+                        alt=""
+                        className="w-10 h-10 rounded-full object-cover border-2"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-sm font-semibold">
+                          {comment.userDetails.username}
+                        </p>
+                        <p className="text-sm">{comment.comment}</p>
+                      </div>
                     </div>
-                </div>
+                    <div className="w-80 h-[1px] bg-gray-200"></div>
+                  </>
                 ))}
                 <div className="flex flex-col gap-2 py-3 px-2">
                   <div className="capitalize text-center">add a comment :</div>
