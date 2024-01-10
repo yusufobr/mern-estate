@@ -49,6 +49,61 @@ export const getAllListings = async (req, res, next) => {
   }
 };
 
+export const getAll = async (req, res, next) => {
+  try {
+    const listings = await Listing.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "userRef",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $unwind: "$userDetails" },
+      {
+        $project: {
+          userDetails: {
+            username: "$userDetails.username",
+            avatar: "$userDetails.profilePicture",
+          },
+          name: 1,
+          description: 1,
+          adress: 1,
+          images: 1,
+          discountedPrice: 1,
+          type: 1,
+          bedrooms: 1,
+          bathrooms: 1,
+          parking: 1,
+          furnished: 1,
+        },
+      },
+    ]);
+
+    const correctedListing = listings.map((listing, imdex) => {
+      return {
+        id: listing._id,
+        title: listing.name,
+        description: listing.description,
+        adress: listing.adress,
+        images: listing.images,
+        price: listing.discountedPrice,
+        category: listing.type,
+        bedroom: listing.bedrooms,
+        bathroom: listing.bathrooms,
+        parking: listing.parking,
+        furnished: listing.furnished,
+        postedBy: listing.userDetails,
+      };
+    })
+
+    return res.status(200).json(correctedListing);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getSinglePost = async (req, res, next) => {
   try {
     const listing = await Listing.findById(
@@ -144,7 +199,9 @@ export const deleteListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, "Listing not found!"));
   }
-  if (req.user.id !== listing.userRef) {
+  
+  const userRefStr = listing.userRef.toString();
+  if (req.user.id !== userRefStr) {
     return next(
       errorHandler(403, "You are not authorized to delete this listing!")
     );

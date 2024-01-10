@@ -2,6 +2,7 @@ import expres from "express";
 import {
   createListing,
   deleteListing,
+  getAll,
   getAllListings,
   getMyListings,
   getSinglePost,
@@ -16,7 +17,7 @@ router.post("/create", verifyToken, createListing);
 router.post("/mylistings/:id", verifyToken, getMyListings);
 router.delete("/delete/:id", verifyToken, deleteListing);
 router.post("/update/:id", verifyToken, updateListing);
-router.get("/all", getAllListings);
+router.get("/all", getAll);
 router.get("/post/:id", getSinglePost);
 router.post("/getSpecificListings", getSpecificListings);
 

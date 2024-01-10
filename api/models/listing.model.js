@@ -43,18 +43,19 @@ const listingSchema = new mongoose.Schema(
       required: true,
     },
     type: {
-        type: String,
-        value: ['rent', 'sale'],
-        required: true,
+      type: String,
+      value: ['rent', 'sale'],
+      required: true,
     },
-    offer :{
-        type: Boolean,
-        required: true,
+    offer: {
+      type: Boolean,
+      required: true,
     },
     userRef: {
-        type: String,
-        required: true,
-    }
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );
