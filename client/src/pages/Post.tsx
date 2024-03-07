@@ -10,6 +10,8 @@ import { CiHeart } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { FcLike } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import ImageViewer from "../components/ImageViewer";
+import {firePreview, formatMoneyNumber} from "../utils/functions";
 
 type PostProps = {
   id: string;
@@ -18,13 +20,16 @@ type PostProps = {
   adress: string;
   price: number;
   images: string[];
-  postedBy: string;
   category: string;
   bathroom: number;
   bedroom: number;
   furnished: boolean;
   parking: boolean;
   likes: number;
+  postedBy: {
+    username: string;
+    avatar: string;
+  };
 };
 
 const Post = () => {
@@ -37,16 +42,24 @@ const Post = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`/api/listing/post/${id}`).then((res) => {
-      setPost(res.data);
-    });
-    if (currentUser) {
-      axios
-        .post("/api/like/check", { user: currentUser.id, listing: id })
-        .then((res) => {
-          setLike(res.data);
-        });
-    }
+    const fetchPost = async () => {
+      try {
+        const res = await axios.get(`/api/listing/post/${id}`);
+        setPost(res.data);
+
+        if (currentUser) {
+          axios
+            .post("/api/like/check", { user: currentUser.id, listing: id })
+            .then((res) => {
+              setLike(res.data);
+            });
+        }
+      } catch (error) {
+        navigate("/404");
+      }
+    };
+
+    fetchPost();
   }, [like]);
 
   useEffect(() => {
@@ -57,7 +70,7 @@ const Post = () => {
     try {
       const res = await axios.get(`/api/comment/get?listingId=${id}&limit=5`);
       setComments(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -109,7 +122,7 @@ const Post = () => {
       {!post ? (
         <div className="flex flex-col gap-8">
           <div className="bg-gray-100 h-96"></div>
-          <div className="container mx-auto max-w-screen-xl  grid grid-cols-3 gap-8">
+          <div className="container mx-auto max-w-screen-xl grid grid-cols-3 gap-8">
             <div className="col-span-2 bg-gray-100 h-[800px]"></div>
             <div className="bg-gray-100 h-[800px]"></div>
           </div>
@@ -133,70 +146,97 @@ const Post = () => {
           >
             {post &&
               post.images.map((image: string, index: number) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt=""
-                  className="h-64 md:h-96 object-cover"
-                  loading="lazy"
-                />
+                <div className="relative" onClick={firePreview}>
+                  <img
+                    key={index}
+                    src={image}
+                    alt=""
+                    className="h-64 md:h-96 object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-0 w-full h-1/2 bg-gradient-to-b from-black z-20 opacity-75"></div>
+                </div>
               ))}
           </Carousel>
 
           <div className="container mx-auto max-w-screen-xl flex flex-col mb-8 md:grid md:grid-cols-3 gap-8">
-            <div className="col-span-2 p-8 rounded-lg bg-gray-50 flex flex-col gap-4">
-              <h1 className="text-3xl font-bold">{post?.title}</h1>
-              <div className="flex text-lg gap-2 items-center">
-                <FaLocationDot size={18} className="text-gray-600" />
-                <p className="text-gray-800 line-clamp-1" title={post?.adress}>
-                  {post?.adress}
-                </p>
+            <div className="col-span-2 p-8 rounded-lg bg-white flex flex-col gap-4">
+              <div className="flex gap-3 justify-between">
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-3xl font-bold">{post?.title}</h1>
+                  <div className="flex text-lg gap-2 items-center">
+                    <FaLocationDot size={14} className="text-gray-600" />
+                    <p
+                      className="text-gray-800 line-clamp-1"
+                      title={post?.adress}
+                    >
+                      {post?.adress}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    title={post.postedBy.username}
+                    className="rounded-full overflow-hidden border border-gray-200"
+                  >
+                    <img
+                      className="w-8 h-8 object-cover rounded-full"
+                      src={post.postedBy.avatar || "https://via.placeholder.com/150"}
+                      alt=""
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="flex items-center gap-3 text-lg font-semibold">
+              <div className="flex items-center gap-3 text-sm font-semibold">
                 <div
-                  className="flex gap-3 items-center px-3 py-1 border rounded"
+                  className="flex gap-2 items-center px-2 py-1 border"
                   title="bedrooms"
                 >
                   <span>{post?.bedroom}</span>
-                  <FaBed size={25} className="text-gray-600" />
+                  <FaBed size={16} className="text-gray-600" />
                 </div>
                 <div
-                  className="flex gap-3 items-center px-3 py-1 border rounded"
+                  className="flex gap-2 items-center px-2 py-1 border"
                   title="bathrooms"
                 >
                   <span>{post?.bathroom}</span>
-                  <FaBath size={20} className="text-gray-600" />
+                  <FaBath size={16} className="text-gray-600" />
                 </div>
                 {post?.furnished && (
                   <div
-                    className="flex gap-3 items-center px-3 py-1 border rounded"
+                    className="flex gap-2 items-center px-2 py-1 border"
                     title="Furnished"
                   >
-                    <MdChair size={25} className="text-gray-600" />
+                    <MdChair size={18} className="text-gray-600" />
                   </div>
                 )}
                 {post?.parking && (
                   <div
-                    className="flex gap-3 items-center px-3 py-1 border rounded"
+                    className="flex gap-2 items-center px-2 py-1 border"
                     title="Parking"
                   >
-                    <FaParking size={25} className="text-gray-600" />
+                    <FaParking size={16} className="text-gray-600" />
                   </div>
                 )}
               </div>
 
-              <p className="text-lg">{post?.description}</p>
+              <div>
+                <span>About</span>
+                <p className="text-lg">{post?.description}</p>
+              </div>
               <p className="text-lg">{post?.category}</p>
               <div>
                 <span>{post.likes}</span>
                 <span>{post.likes > 1 ? " Likes" : " Like"}</span>
               </div>
+
+              <ImageViewer images={post?.images || []} />
             </div>
-            <div className="flex flex-col gap-3 rounded-lg overflow-hidden bg-gray-50 pb-8">
-              <div className="bg-gray-400 text-white font-semibold text-3xl p-7">
+            <div className="flex flex-col gap-3 overflow-hidden bg-white pb-8">
+              <div className="bg-black text-white font-semibold text-3xl p-7">
                 <p>
-                  {post?.price}
+                  {formatMoneyNumber(post?.price)}
                   <span className="text-sm font-meduim  italic capitalize">
                     {post?.category === "rent" ? " $/month" : " $"}
                   </span>
@@ -211,7 +251,10 @@ const Post = () => {
                   <>
                     <div key={comment._id} className="flex gap-3 items-start">
                       <img
-                        src={comment.userDetails.profilePicture}
+                        src={
+                          comment.userDetails?.profilePicture ||
+                          "https://via.placeholder.com/150"
+                        }
                         alt=""
                         className="w-10 h-10 rounded-full object-cover border-2"
                       />
@@ -225,7 +268,7 @@ const Post = () => {
                     <div className="w-80 h-[1px] bg-gray-200"></div>
                   </>
                 ))}
-                <div className="flex flex-col gap-2 py-3 px-2">
+                <div className="flex flex-col gap-2 py-3">
                   <div className="capitalize text-center">add a comment :</div>
                   <form onSubmit={addComment} className="flex flex-col gap-2">
                     <textarea

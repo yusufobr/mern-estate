@@ -18,25 +18,30 @@ const Favorites = () => {
     const listOfIds = await axios.post("/api/like/favorites", {
       user: currentUser.id,
     });
-    if (listOfIds.data.length > 0) {
+    console.log("listOfIds.data", listOfIds.data);
+    if(listOfIds.data === 'You have no favorites') {
+      setList([]);
+      setLoading(false);
+    } else {
       const list = await axios.post("/api/listing/getSpecificListings", {
         listingList: listOfIds.data,
       });
       setList(list.data);
       setLoading(false);
-    } else {
-      setList([]);
-      setLoading(false);
     }
   };
 
   return (
-    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4 my-10">
-      <h2>Favorites</h2>
+    <div className=" flex flex-col gap-4">
+      <div className="w-full pt-32 pb-4 bg-gray-200 my-profile-bg">
+        <div className="container max-w-screen-xl mx-auto p-3">
+          <h1 className="font-bold text-3xl">Favorites</h1>
+        </div>
+      </div>
       {loading ? (
-        <h1>Loading...</h1>
+        <h1 className="container max-w-screen-xl mx-auto">Loading...</h1>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="container max-w-screen-xl mx-auto my-4 mb-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
           {list.length > 0 ? (
             list.map((item) => (
               <div key={item.id}>
@@ -58,7 +63,7 @@ const Favorites = () => {
               </div>
             ))
           ) : (
-            <h1>No favorites</h1>
+            <h1 className="p-2">Sorry, no saved properties yet</h1>
           )}
         </div>
       )}

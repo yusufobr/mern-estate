@@ -1,3 +1,32 @@
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: 'SF Pro Display', sans-serif;
+  background-color: #f9fafb;
+}
+
+.bg-image {
+  background-image: url();
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}
+
+.cstm-cursor {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='18' r='15' fill='transparent' stroke='white' stroke-width='3' style='backdrop-filter: blur(8px);'/%3E%3Ctext x='18' y='23' text-anchor='middle' font-weight='bold' font-size='10' fill='white'%3EView%3C/text%3E%3C/svg%3E%0A")
+      18 18,
+    auto;
+}
+
+
+.my-profile-bg {
+  background-image: url('./assets/profile-bg.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+}

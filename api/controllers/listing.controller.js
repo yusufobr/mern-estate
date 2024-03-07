@@ -96,7 +96,7 @@ export const getAll = async (req, res, next) => {
         furnished: listing.furnished,
         postedBy: listing.userDetails,
       };
-    })
+    });
 
     return res.status(200).json(correctedListing);
   } catch (error) {
@@ -110,10 +110,6 @@ export const getSinglePost = async (req, res, next) => {
       req.params.id,
       "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished"
     );
-
-    if (!listing) {
-      return next(errorHandler(404, "Listing not found!"));
-    }
 
     const user = await User.findById(listing.userRef);
 
@@ -136,7 +132,7 @@ export const getSinglePost = async (req, res, next) => {
     };
     return res.status(200).json(correctedListing);
   } catch (error) {
-    next(error);
+    next(errorHandler(404, "Listing not found!"));
   }
 };
 
@@ -199,7 +195,7 @@ export const deleteListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, "Listing not found!"));
   }
-  
+
   const userRefStr = listing.userRef.toString();
   if (req.user.id !== userRefStr) {
     return next(
@@ -232,6 +228,99 @@ export const updateListing = async (req, res, next) => {
       { new: true }
     );
     return res.status(200).json(updatedListing);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const search = async (req, res, next) => {
+  try {
+    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const searchTerm = req.query.searchTerm || "";
+    const sort = req.query.sort || "createdAt";
+    const order = req.query.order || "desc";
+
+
+    let furnished = req.query.furnished;
+    let parking = req.query.parking;
+    let type = req.query.type;
+
+
+    if (furnished === undefined || furnished === "false") {
+      furnished = { $in: [false, true] };
+    }
+
+    if (parking === undefined || parking === "false") {
+      parking = { $in: [false, true] };
+    }
+
+    if (type === undefined || type === "all") {
+      type = { $in: ["sale", "rent"] };
+    }
+
+
+    const listings = await Listing.aggregate([
+      {
+        $match: {
+          $and: [
+            { name: { $regex: searchTerm, $options: "i" } },
+            { type },
+            { furnished },
+            { parking },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userRef",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $unwind: "$userDetails" },
+      {
+        $project: {
+          userDetails: {
+            username: "$userDetails.username",
+            avatar: "$userDetails.profilePicture",
+          },
+          name: 1,
+          description: 1,
+          adress: 1,
+          images: 1,
+          discountedPrice: 1,
+          type: 1,
+          bedrooms: 1,
+          bathrooms: 1,
+          parking: 1,
+          furnished: 1,
+        },
+      },
+    ])
+      .sort({ [sort]: order })
+      .skip(startIndex)
+      .limit(limit);
+
+    const correctedListings = listings.map((listing) => {
+      return {
+        id: listing._id,
+        title: listing.name,
+        description: listing.description,
+        adress: listing.adress,
+        images: listing.images,
+        price: listing.discountedPrice,
+        category: listing.type,
+        bedroom: listing.bedrooms,
+        bathroom: listing.bathrooms,
+        parking: listing.parking,
+        furnished: listing.furnished,
+        postedBy: listing.userDetails,
+      };
+    });
+
+    return res.status(200).json(correctedListings);
   } catch (error) {
     next(error);
   }

@@ -4,6 +4,7 @@ import { FaBath, FaBed, FaLocationDot } from "react-icons/fa6";
 import { MdChair, MdImageNotSupported } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { formatMoneyNumber } from "../utils/functions";
 
 type ListingCardProps = {
   id: string;
@@ -35,7 +36,7 @@ const ListingCard = ({
   parking,
 }: ListingCardProps) => {
   return (
-    <div className="max-w-sm flex flex-col h-full bg-white border border-gray-200 rounded-lg shadow ">
+    <div className="max-w-sm flex flex-col h-full bg-white border border-gray-200 hover:border-transparent hover:shadow-md transition delay-150 duration-150">
       <div>
         {images.length === 0 ? (
           <div className="flex flex-col items-center justify-center w-full h-48 bg-slate-100 text-slate-300">
@@ -55,12 +56,12 @@ const ListingCard = ({
             emulateTouch={true}
             useKeyboardArrows={true}
             dynamicHeight={true}
-            className="rounded-t-lg object-cover w-full h-48"
+            className="object-cover w-full h-48"
           >
             {images.map((image, index) => (
               <div key={index}>
                 <img
-                  className="rounded-t-lg object-cover w-full h-48"
+                  className="object-cover w-full h-48"
                   src={image}
                   alt="test"
                   loading="lazy"
@@ -74,7 +75,7 @@ const ListingCard = ({
         <div>
           <Link to={`/post/${id}`}>
             <p className="font-semibold text-gray-600">
-              {price && price + " €"}
+              {price && formatMoneyNumber(price) + " €"}
               {category === "rent" ? (
                 <span className="text-sm font-meduim text-gray-400 italic capitalize">
                   {" "}
@@ -142,7 +143,7 @@ const ListingCard = ({
           {postedBy && (
             <div title={postedBy.username} className="w-6 h-6 rounded-full">
               <img
-                src={postedBy.avatar}
+                src={postedBy.avatar || "https://via.placeholder.com/150"}
                 alt={postedBy.username}
                 className="w-full h-full rounded-full object-cover"
               />

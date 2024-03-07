@@ -47,6 +47,11 @@ const listingSchema = new mongoose.Schema(
       value: ['rent', 'sale'],
       required: true,
     },
+    propertyType: {
+      type: String,
+      value: ['house', 'apartment', 'studio'],
+      required: true,
+    },
     offer: {
       type: Boolean,
       required: true,

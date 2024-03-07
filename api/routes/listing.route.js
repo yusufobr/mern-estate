@@ -3,10 +3,10 @@ import {
   createListing,
   deleteListing,
   getAll,
-  getAllListings,
   getMyListings,
   getSinglePost,
   getSpecificListings,
+  search,
   updateListing,
 } from "../controllers/listing.controller.js";
 import { verifyToken } from "../utils/verifyToken.js";
@@ -20,5 +20,6 @@ router.post("/update/:id", verifyToken, updateListing);
 router.get("/all", getAll);
 router.get("/post/:id", getSinglePost);
 router.post("/getSpecificListings", getSpecificListings);
+router.get("/search", search);
 
 export default router;

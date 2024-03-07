@@ -6,6 +6,7 @@ import { storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 type ListingProps = {
   userRef: string;
@@ -13,6 +14,7 @@ type ListingProps = {
   description: string;
   adress: string;
   type: string;
+  propertyType: string;
   bedrooms: number;
   bathrooms: number;
   furnished: boolean;
@@ -25,6 +27,7 @@ type ListingProps = {
 
 const CreateListing = () => {
   const { currentUser } = useSelector((state: any) => state.user);
+  const navigate = useNavigate();
 
   const pictures = useRef<HTMLInputElement>(null);
 
@@ -91,9 +94,11 @@ const CreateListing = () => {
     try {
       const res = await axios.post("/api/listing/create", formData);
       if (res.status === 201) {
+        navigate('/post/' + res.data._id);
         console.log(res);
         setFormData(initialState);
         setImages([]);
+        
       }
     } catch (error) {
       console.log(error);
@@ -106,6 +111,7 @@ const CreateListing = () => {
     description: "",
     adress: "",
     type: "rent",
+    propertyType: "house",
     bedrooms: 1,
     bathrooms: 1,
     furnished: false,
@@ -149,9 +155,14 @@ const CreateListing = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 flex flex-col gap-10 items-center">
-      <h1 className="font-bold text-3xl">Create Listing</h1>
-      <div className="sm:grid sm:grid-cols-2 sm:gap-2 flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-10 items-center">
+      <div className="w-full pt-32 pb-4 bg-gray-200 my-profile-bg">
+        <div className="container max-w-screen-xl mx-auto p-3">
+          <h1 className="font-bold text-3xl">Create Listing</h1>
+        </div>
+      </div>
+
+      <div className="container max-w-screen-xl mx-auto mb-8 sm:grid sm:grid-cols-2 sm:gap-2 flex flex-col gap-4 w-full">
         <div className="w-full">
           <form className="flex flex-col gap-4 p-3" onSubmit={handleSubmit}>
             <input
@@ -191,21 +202,55 @@ const CreateListing = () => {
                   type="radio"
                   name="category"
                   className="border p-1 rounded-md focus:outline-none"
-                  id="rent"
-                  onChange={() => setFormData({ ...formData, type: "rent" })}
+                  id="house"
+                  onChange={() => setFormData({ ...formData, propertyType: "house" })}
                   defaultChecked
                 />
-                <label htmlFor="category">Rent</label>
+                <label htmlFor="category">House</label>
               </div>
               <div className="flex gap-1">
                 <input
                   type="radio"
                   name="category"
                   className="border p-1 rounded-md focus:outline-none"
+                  id="apartment"
+                  onChange={() => setFormData({ ...formData, propertyType: "apartment" })}
+                />
+                <label htmlFor="category">Apartment</label>
+              </div>
+              <div className="flex gap-1">
+                <input
+                  type="radio"
+                  name="category"
+                  className="border p-1 rounded-md focus:outline-none"
+                  id="studio"
+                  onChange={() => setFormData({ ...formData, propertyType: "studio" })}
+                />
+                <label htmlFor="category">Studio</label>
+              </div>
+            </div>
+            <div className="flex gap-2 items-center">
+              <span>Type:</span>
+              <div className="flex gap-1">
+                <input
+                  type="radio"
+                  name="type"
+                  className="border p-1 rounded-md focus:outline-none"
+                  id="rent"
+                  onChange={() => setFormData({ ...formData, type: "rent" })}
+                  defaultChecked
+                />
+                <label htmlFor="type">Rent</label>
+              </div>
+              <div className="flex gap-1">
+                <input
+                  type="radio"
+                  name="type"
+                  className="border p-1 rounded-md focus:outline-none"
                   id="sale"
                   onChange={() => setFormData({ ...formData, type: "sale" })}
                 />
-                <label htmlFor="category">Sale</label>
+                <label htmlFor="type">Sale</label>
               </div>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -303,12 +348,15 @@ const CreateListing = () => {
               onChange={(e) => setImages(e.target.files!)}
               hidden
             />
-            <button
-              type="submit"
-              className="bg-purple-700 text-white p-3 rounded-md"
-            >
-              Create Listing
-            </button>
+            <div>
+              <button
+                type="submit"
+                className="bg-black text-white p-2 px-8 rounded-md"
+              >
+                Create Listing
+              </button>
+
+            </div>
           </form>
         </div>
         <div className="flex flex-col gap-4 p-3">

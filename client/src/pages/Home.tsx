@@ -1,37 +1,35 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ListingCard from "../components/ListingCard";
-
-type ListingsProps = {
-  id: string;
-  title: string;
-  description: string;
-  images: string[];
-};
+import { useSelector, useDispatch } from "react-redux";
+import { fetchListingsStart, fetchListingsSuccess, fetchListingsFailure, removeError } from "../redux/listing/listingSlice";
 
 const Home = () => {
-  const [listings, setListings] = useState<ListingsProps[]>([]);
-  const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
+  const { listings, error, loading } = useSelector((state: any) => state.listings);
 
   useEffect(() => {
     fetchListings();
   }, []);
 
   const fetchListings = async () => {
-    setLoading(true);
+    dispatch(fetchListingsStart());
     try {
       const res = await axios.get("api/listing/all");
-      setListings(res.data);
-      // console.log(res.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+      dispatch(fetchListingsSuccess(res.data));
+
+    } catch (error: any) {
+      dispatch(fetchListingsFailure(error.message));
+      setTimeout(() => {
+      dispatch(removeError());}, 3000);
     }
   };
 
   return (
-    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4 my-10">
+    <div className="relative py-20">
+      <div className="absolute top-0 w-full h-20  bg-gradient-to-b from-gray-400"></div>
+    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4">
       <h1 className="text-3xl font-bold">Home</h1>
       {loading && <h1>Loading...</h1>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -53,7 +51,9 @@ const Home = () => {
             />
           </div>
         ))}
+        {error && <h1 className="text-red-500 text-xl">{error}</h1>}
       </div>
+    </div>
     </div>
   );
 };
