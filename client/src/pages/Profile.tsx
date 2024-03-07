@@ -6,7 +6,7 @@ import { storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   removeError,
   updateUserFailure,

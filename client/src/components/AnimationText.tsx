@@ -2,11 +2,9 @@ import { motion } from "framer-motion";
 
 type AnimationTextProps = {
   text?: string;
-  animation?: string;
-  reptition?: string;
 };
 
-const AnimationText = ({ text, animation, reptition }: AnimationTextProps) => {
+const AnimationText = ({ text }: AnimationTextProps) => {
   return (
     <>
       <motion.h2

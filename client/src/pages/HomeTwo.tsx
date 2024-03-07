@@ -1,7 +1,6 @@
 import BestListing from "../components/BestListing";
 import ClaimDiscount from "../components/ClaimDiscount";
 import FAQ from "../components/FAQ";
-import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import LookingFor from "../components/LookingFor";
 

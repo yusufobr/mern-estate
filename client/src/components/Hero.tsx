@@ -1,14 +1,13 @@
-import { useState } from "react";
 import bgImg from "../assets/home-bg.jpg";
 import { CiSearch } from "react-icons/ci";
 
 const Hero = () => {
-  const [bgUrl, setBgUrl] = useState(bgImg);
+  
   return (
     <section
       className="relative h-screen bg-cover flex flex-col justify-between md:justify-center px-4 pt-32 pb-4 md:px-8 md:py-16 text-white"
       style={{
-        backgroundImage: `url(${bgUrl})`,
+        backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
         backgroundPosition: "top",
       }}
