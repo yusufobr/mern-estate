@@ -88,3 +88,40 @@ export const getComments = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getCommentsCount = async (req, res, next) => {
+  let { listingId } = req.query;
+
+  try {
+    if (!listingId) {
+      return res.status(400).json({ message: "Listing ID is required." });
+    }
+
+    // create a mongoo object id from the listing id
+    const objectIdListingId = new mongoose.Types.ObjectId(listingId);
+
+    const commentsCount = await Comment.aggregate([
+      {
+        $match: { listing: objectIdListingId }
+      },
+      {
+        $count: "commentsCount"
+      }
+    ]);
+
+    return res.status(200).json(commentsCount);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserCommentsCount = async (req, res, next) => {
+  const { userId } = req.query;
+  try {
+    const likesNumber = await Comment.find({ user: userId }).countDocuments();
+    return res.status(200).json(likesNumber);
+
+  } catch (error) {
+    next(error);
+  }
+};
