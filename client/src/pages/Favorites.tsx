@@ -18,7 +18,7 @@ const Favorites = () => {
     const listOfIds = await axios.post("/api/like/favorites", {
       user: currentUser.id,
     });
-    console.log("listOfIds.data", listOfIds.data);
+    // console.log("listOfIds.data", listOfIds.data);
     if(listOfIds.data === 'You have no favorites') {
       setList([]);
       setLoading(false);

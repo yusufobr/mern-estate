@@ -19,6 +19,7 @@ import {
 } from "../redux/user/userSlice";
 import UserListing from "../components/UserListing";
 import { FaUserEdit } from "react-icons/fa";
+import Statistics from "../components/Statistics";
 
 type UserProps = {
   username?: string;
@@ -210,6 +211,8 @@ const Profile = () => {
       </div>
 
       <div className="container p-3 max-w-screen-xl mx-auto flex flex-col gap-10">
+        <Statistics />
+        
         <div className="grid grid-cols-2 gap-8 w-full">
           <div className="flex flex-col gap-4 items-start">
             <h2 className="text-xl text-gray-600 font-semibold">Update info</h2>

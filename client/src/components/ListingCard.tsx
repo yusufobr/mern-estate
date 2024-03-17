@@ -5,6 +5,9 @@ import { MdChair, MdImageNotSupported } from "react-icons/md";
 import { FaParking } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { formatMoneyNumber } from "../utils/functions";
+import { useSelector } from "react-redux";
+import { FaEdit } from "react-icons/fa";
+
 
 type ListingCardProps = {
   id: string;
@@ -35,6 +38,9 @@ const ListingCard = ({
   furnished,
   parking,
 }: ListingCardProps) => {
+
+  const { currentUser } = useSelector((state: any) => state.user);
+
   return (
     <div className="max-w-sm flex flex-col h-full bg-white border border-gray-200 hover:border-transparent hover:shadow-md transition delay-150 duration-150">
       <div>
@@ -140,11 +146,18 @@ const ListingCard = ({
               </div>
             )}
           </div>
-          {postedBy && (
-            <div title={postedBy.username} className="w-6 h-6 rounded-full">
+          {postedBy?.username === currentUser?.username ? (
+            <Link
+              to={`/update/${id}`}
+              className="text-sm font-semibold text-gray-600 hover:text-gray-800 transition delay-150 duration-150"
+            >
+              <FaEdit size={16} />
+            </Link>
+          ) : (
+            <div title={postedBy?.username} className="w-6 h-6 rounded-full">
               <img
-                src={postedBy.avatar || "https://via.placeholder.com/150"}
-                alt={postedBy.username}
+                src={postedBy?.avatar || "https://via.placeholder.com/150"}
+                alt={postedBy?.username}
                 className="w-full h-full rounded-full object-cover"
               />
             </div>
