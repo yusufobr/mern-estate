@@ -11,24 +11,24 @@ import path from "path";
 
 dotenv.config();
 
+const app = express();
+const PORT = process.env.PORT || 3000; // Use the provided PORT by Heroku or default to 3000
+
 // Connect to MongoDB
 mongoose
-    .connect(process.env.MONGOO)
-    .then(() => {
-        console.log("Connected to MongoDB");
-    })
-    .catch((err) => {
-        console.log(err);
+  .connect(process.env.MONGOO)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    // Run server after MongoDB connection is established
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
     });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-    const __dirname = path.resolve();
-
-const app = express();
-
-// Run server
-app.listen(3000, () => {
-    console.log("Server listening on port 3000");
-});
+const __dirname = path.resolve();
 
 // allow the json data to be parsed by express
 app.use(express.json());
@@ -43,21 +43,21 @@ app.use("/api/listing", listingRouter);
 app.use("/api/like", likeRouter);
 app.use("/api/comment", commentRouter);
 
-// 
+//
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 // redirect any other route to the index.html file in client/dist
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/client/dist/index.html"));
+  res.json("404");
 });
 
 // Middleware
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    return res.status(statusCode).json({
-        success: false,
-        statusCode,
-        message,
-    });
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
 });
