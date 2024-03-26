@@ -41,6 +41,10 @@ const Post = () => {
   const [comments, setComments] = useState<any[]>([]);
   const navigate = useNavigate();
 
+  if(post) {
+    document.title = post.title
+  }
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
