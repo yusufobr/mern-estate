@@ -3,5 +3,5 @@ node_modules
 privateKey.json
 firestore
 structure.txt
-images.json
+images_firebase.json
 netlify.toml
