@@ -14,7 +14,7 @@
     - [Tech Stack](#tech-stack)
     - [Key Features](#key-features)
   - [⚙️ Project Structure](#structure)
-  - [🔗 API Routes](#structure)
+  - [🔗 API Routes](#api)
 - [💻 Getting Started](#getting-started)
   - [Setup](#setup)
   - [Prerequisites](#prerequisites)
@@ -81,7 +81,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## ⚙️ Project Structure <a name="live-demo"></a>
+## ⚙️ Project Structure <a name="structure"></a>
 
 ```sh
 .
@@ -125,7 +125,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-##  🔗 API Routes
+##  🔗 API Routes <a name="api"></a>
 
 ### Authentication Routes
 
@@ -165,6 +165,8 @@
 - **`POST /api/comment/remove`** : Remove a comment from a listing (requires authentication).
 - **`GET /api/comment/get`** : Get comments for a listing.
 - **`GET /api/comment/userCommentsCount`** : Get count of comments posted by a user.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
