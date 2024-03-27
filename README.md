@@ -15,6 +15,7 @@
     - [Key Features](#key-features)
   - [⚙️ Project Structure](#structure)
   - [🔗 API Routes](#api)
+  - [🔗 Client Routes](#client)
 - [💻 Getting Started](#getting-started)
   - [Setup](#setup)
   - [Prerequisites](#prerequisites)
@@ -165,6 +166,34 @@
 - **`POST /api/comment/remove`** : Remove a comment from a listing (requires authentication).
 - **`GET /api/comment/get`** : Get comments for a listing.
 - **`GET /api/comment/userCommentsCount`** : Get count of comments posted by a user.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Client Routes
+
+The client-side routes are defined using React Router's `<BrowserRouter>` component. Below is a summary of the routes and their corresponding components:
+
+| Path          | Component           | Description                           |
+|---------------|---------------------|---------------------------------------|
+| `/`           | `Home`              | Renders the Home component.           |
+| `/search`     | `Search`            | Renders the Search component.         |
+| `/about`      | `About`             | Renders the About component.          |
+| `/post/:id`   | `Post`              | Renders the Post component with dynamic post ID. |
+| `/home2`      | `HomeTwo`           | Renders the HomeTwo component.        |
+| **Private Routes** |                    |                                       |
+| `/profile`    | `Profile`           | Renders the Profile component (requires authentication). |
+| `/create`     | `CreateListing`     | Renders the CreateListing component (requires authentication). |
+| `/update/:id` | `UpdateListing`     | Renders the UpdateListing component with dynamic listing ID (requires authentication). |
+| `/favorites`  | `Favorites`         | Renders the Favorites component (requires authentication). |
+| **Authentication Routes** |            |                                       |
+| `/signin`     | `SignIn`            | Renders the SignIn component.         |
+| `/signup`     | `SignUp`            | Renders the SignUp component.         |
+| **Fallback Route** |                  |                                       |
+| `*`           | `Not Found`         | Renders a "Not Found" message for undefined routes. |
+
+These routes provide navigation and functionality for various pages and features within the MERN Estate client-side application.
+
+Feel free to adjust the route paths and components as needed to fit your project's requirements.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
