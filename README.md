@@ -3,7 +3,7 @@
     <img width="250" src="./client/src/assets/mern-estate-logo.svg" />
 </a>    
 </div>
-<br /><br />
+<br />
 
 <!-- TABLE OF CONTENTS -->
 
@@ -29,8 +29,6 @@
 - [⭐️ Show your support](#support)
 - [🙏 Acknowledgements](#acknowledgements)
 - [📝 License](#license)
-<br/>
-<br/>
 <br/>
 
 <!-- PROJECT DESCRIPTION -->

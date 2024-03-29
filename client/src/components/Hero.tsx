@@ -1,5 +1,6 @@
 import bgImg from "../assets/home-bg.jpg";
 import { CiSearch } from "react-icons/ci";
+import AutoComplete from "./AutoComplete";
 
 const Hero = () => {
   
@@ -36,15 +37,7 @@ const Hero = () => {
         </div>
         <div className="flex flex-col gap-1 md:gap-4">
           <span>Location</span>
-          <select
-            name="category"
-            id=""
-            className="pr-4 font-bold text-lg md:text-2xl bg-transparent focus:bg-black rounded-md"
-          >
-            <option value="rent-sell">New York</option>
-            <option value="rent">Husten TX</option>
-            <option value="sell">Florida</option>
-          </select>
+          <AutoComplete />
         </div>
         <div className="flex flex-col gap-1 md:gap-4">
           <span>Type</span>
