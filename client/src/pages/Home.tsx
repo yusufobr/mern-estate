@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import ListingCard from "../components/ListingCard";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchListingsStart, fetchListingsSuccess, fetchListingsFailure, removeError } from "../redux/listing/listingSlice";
+import PageHeader from "../components/PageHeader";
 
 const Home = () => {
 
@@ -27,10 +28,10 @@ const Home = () => {
   };
 
   return (
-    <div className="relative py-20">
-      <div className="absolute top-0 w-full h-20  bg-gradient-to-b from-gray-400"></div>
-    <div className="container max-w-screen-xl mx-auto p-2 flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">Home</h1>
+    <div className="relative">
+    <PageHeader pageTitle="Home" />
+      
+    <div className="container max-w-screen-xl my-4 mx-auto p-2 flex flex-col gap-4">
       {loading && <h1>Loading...</h1>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
         {listings.map((listing: any) => (

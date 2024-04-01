@@ -7,6 +7,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import PageHeader from "../components/PageHeader";
 
 type ListingProps = {
   userRef: string;
@@ -156,11 +157,7 @@ const CreateListing = () => {
 
   return (
     <div className="flex flex-col gap-10 items-center">
-      <div className="w-full pt-32 pb-4 bg-gray-200 my-profile-bg">
-        <div className="container max-w-screen-xl mx-auto p-3">
-          <h1 className="font-bold text-3xl">Create Listing</h1>
-        </div>
-      </div>
+      <PageHeader pageTitle="Create Listing" />
 
       <div className="container max-w-screen-xl mx-auto mb-8 sm:grid sm:grid-cols-2 sm:gap-2 flex flex-col gap-4 w-full">
         <div className="w-full">

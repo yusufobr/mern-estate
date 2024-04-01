@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import PageHeader from "../components/PageHeader";
 
 const SignUp = () => {
   type User = {
@@ -57,47 +58,49 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container mt-8 p-3 max-w-2xl mx-auto flex flex-col gap-6 items-center">
-      <h1 className="font-bold text-3xl">Sign Up</h1>
-      <form className="flex flex-col space-y-3 w-full" onSubmit={handleSubmit}>
-        <input
-          value={user.username}
-          className="border p-3 rounded-md focus:outline-none"
-          type="text"
-          placeholder="Username"
-          id="username"
-          onChange={(e) => setUser({ ...user, username: e.target.value })}
-        />
-        <input
-          value={user.email}
-          className="border p-3 rounded-md focus:outline-none"
-          type="email"
-          placeholder="Email"
-          id="email"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
-        />
-        <input
-          value={user.password}
-          className="border p-3 rounded-md focus:outline-none"
-          type="password"
-          placeholder="Password"
-          id="password"
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-        />
-        <button
-          className="p-3 rounded-md bg-purple-900 font-semibold text-white"
-          type="submit"
-        >
-          {loading ? "Signing Up.." : "Sign Up"}
-        </button>
-        <p className="text-red-600">{error}</p>
-      </form>
-      <span>
-        Already have an account?{"  "}
-        <Link to="/signin" className="text-purple-900 font-bold">
-          Sign In
-        </Link>
-      </span>
+    <div>
+      <PageHeader pageTitle="Sign Up" />
+      <div className="container mt-8 p-3 max-w-2xl mx-auto flex flex-col gap-6 items-center">
+        <form className="flex flex-col space-y-3 w-full" onSubmit={handleSubmit}>
+          <input
+            value={user.username}
+            className="border p-3 rounded-md focus:outline-none"
+            type="text"
+            placeholder="Username"
+            id="username"
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+          />
+          <input
+            value={user.email}
+            className="border p-3 rounded-md focus:outline-none"
+            type="email"
+            placeholder="Email"
+            id="email"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+          />
+          <input
+            value={user.password}
+            className="border p-3 rounded-md focus:outline-none"
+            type="password"
+            placeholder="Password"
+            id="password"
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+          />
+          <button
+            className="p-3 rounded-md bg-purple-900 font-semibold text-white"
+            type="submit"
+          >
+            {loading ? "Signing Up.." : "Sign Up"}
+          </button>
+          <p className="text-red-600">{error}</p>
+        </form>
+        <span>
+          Already have an account?{"  "}
+          <Link to="/signin" className="text-purple-900 font-bold">
+            Sign In
+          </Link>
+        </span>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ListingCard from "../components/ListingCard";
+import PageHeader from "../components/PageHeader";
 
 const Favorites = () => {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -33,11 +34,7 @@ const Favorites = () => {
 
   return (
     <div className=" flex flex-col gap-4">
-      <div className="w-full pt-32 pb-4 bg-gray-200 my-profile-bg">
-        <div className="container max-w-screen-xl mx-auto p-3">
-          <h1 className="font-bold text-3xl">Favorites</h1>
-        </div>
-      </div>
+      <PageHeader pageTitle="Favorites" />
       {loading ? (
         <h1 className="container max-w-screen-xl mx-auto">Loading...</h1>
       ) : (
