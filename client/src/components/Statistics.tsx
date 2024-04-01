@@ -26,7 +26,11 @@ const Statistics = () => {
     const listOfIds = await axios.post("/api/like/favorites", {
       user: currentUser.id,
     });
-    setNbmLikes(listOfIds.data.length);
+    if (listOfIds.data === "You have no favorites") {
+      setNbmLikes(0);
+    }else{
+      setNbmLikes(listOfIds.data.length);
+    }
   };
 
   const commentsCount = async () => {
