@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Like from "../models/likes.model.js";
 import Listing from "../models/listing.model.js";
 import User from "../models/user.model.js";
@@ -51,7 +52,7 @@ export const getAllListings = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const listings = await Listing.aggregate([
+    const pipeline = [
       {
         $lookup: {
           from: "users",
@@ -79,9 +80,10 @@ export const getAll = async (req, res, next) => {
           furnished: 1,
         },
       },
-    ]);
+    ];
+    const listings = await Listing.aggregate(pipeline);
 
-    const correctedListing = listings.map((listing, imdex) => {
+    const correctedListing = listings.map((listing) => {
       return {
         id: listing._id,
         title: listing.name,
@@ -164,10 +166,43 @@ export const getSpecificListings = async (req, res, next) => {
   try {
     // listingklist is an array of listing ids
     const { listingList } = req.body;
-    const listing = await Listing.find(
-      { _id: { $in: listingList } },
-      "name description adress images discountedPrice bedrooms bathrooms parking furnished"
-    ).sort({ createdAt: -1 });
+    const newIds = await listingList.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    );
+
+    const pipeline = [
+      { $match: { _id: { $in: newIds } } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userRef",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $unwind: "$userDetails" },
+      {
+        $project: {
+          userDetails: {
+            username: "$userDetails.username",
+            avatar: "$userDetails.profilePicture",
+          },
+          name: 1,
+          description: 1,
+          adress: 1,
+          images: 1,
+          discountedPrice: 1,
+          type: 1,
+          bedrooms: 1,
+          bathrooms: 1,
+          parking: 1,
+          furnished: 1,
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ];
+
+    const listing = await Listing.aggregate(pipeline);
 
     const correctedListings = listing.map((listing) => {
       return {
@@ -181,6 +216,7 @@ export const getSpecificListings = async (req, res, next) => {
         bathroom: listing.bathrooms,
         parking: listing.parking,
         furnished: listing.furnished,
+        postedBy: listing.userDetails,
       };
     });
 
@@ -241,11 +277,9 @@ export const search = async (req, res, next) => {
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
 
-
     let furnished = req.query.furnished;
     let parking = req.query.parking;
     let type = req.query.type;
-
 
     if (furnished === undefined || furnished === "false") {
       furnished = { $in: [false, true] };
@@ -258,7 +292,6 @@ export const search = async (req, res, next) => {
     if (type === undefined || type === "all") {
       type = { $in: ["sale", "rent"] };
     }
-
 
     const listings = await Listing.aggregate([
       {
