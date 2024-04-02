@@ -11,7 +11,8 @@ import { useSelector } from "react-redux";
 import { FcLike } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import ImageViewer from "../components/ImageViewer";
-import {firePreview, formatMoneyNumber} from "../utils/functions";
+import { firePreview, formatMoneyNumber } from "../utils/functions";
+import Comments from "../components/Comments";
 
 type PostProps = {
   id: string;
@@ -37,12 +38,11 @@ const Post = () => {
   const [post, setPost] = useState<PostProps>();
   const [like, setLike] = useState<boolean>(false);
   const { currentUser } = useSelector((state: any) => state.user);
-  const [comment, setComment] = useState<string>("");
-  const [comments, setComments] = useState<any[]>([]);
+
   const navigate = useNavigate();
 
-  if(post) {
-    document.title = post.title
+  if (post) {
+    document.title = post.title;
   }
 
   useEffect(() => {
@@ -66,20 +66,6 @@ const Post = () => {
     fetchPost();
   }, [like]);
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
-
-  const fetchComments = async () => {
-    try {
-      const res = await axios.get(`/api/comment/get?listingId=${id}&limit=5`);
-      setComments(res.data);
-      // console.log(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const addLike = async () => {
     if (currentUser) {
       const res = await axios.post("/api/like/add", {
@@ -101,23 +87,6 @@ const Post = () => {
     });
     if (res.status === 200) {
       setLike(false);
-    }
-  };
-
-  const addComment = async (e: FormEvent<HTMLFormElement>) => {
-    if (currentUser) {
-      e.preventDefault();
-      const res = await axios.post("/api/comment/add", {
-        user: currentUser.id,
-        listing: id,
-        comment,
-      });
-      if (res.status === 201) {
-        setComment("");
-        fetchComments();
-      }
-    } else {
-      navigate("/signin");
     }
   };
 
@@ -185,7 +154,10 @@ const Post = () => {
                   >
                     <img
                       className="w-8 h-8 object-cover rounded-full"
-                      src={post.postedBy.avatar || "https://via.placeholder.com/150"}
+                      src={
+                        post.postedBy.avatar ||
+                        "https://via.placeholder.com/150"
+                      }
                       alt=""
                     />
                   </div>
@@ -246,52 +218,9 @@ const Post = () => {
                   </span>
                 </p>
               </div>
-              <div className="flex flex-col gap-2 p-4">
-                <div className="capitalize text-lg text-center">comments :</div>
-                {comments.length === 0 && (
-                  <div className="text-center">No comments yet</div>
-                )}
-                {comments.map((comment) => (
-                  <>
-                    <div key={comment._id} className="flex gap-3 items-start">
-                      <img
-                        src={
-                          comment.userDetails?.profilePicture ||
-                          "https://via.placeholder.com/150"
-                        }
-                        alt=""
-                        className="w-10 h-10 rounded-full object-cover border-2"
-                      />
-                      <div className="flex flex-col gap-1">
-                        <p className="text-sm font-semibold">
-                          {comment.userDetails.username}
-                        </p>
-                        <p className="text-sm">{comment.comment}</p>
-                      </div>
-                    </div>
-                    <div className="w-80 h-[1px] bg-gray-200"></div>
-                  </>
-                ))}
-                <div className="flex flex-col gap-2 py-3">
-                  <div className="capitalize text-center">add a comment :</div>
-                  <form onSubmit={addComment} className="flex flex-col gap-2">
-                    <textarea
-                      value={comment}
-                      placeholder="Add a comment"
-                      cols={30}
-                      rows={2}
-                      className="border rounded p-2"
-                      onChange={(e) => setComment(e.target.value)}
-                    ></textarea>
-                    <button
-                      type="submit"
-                      className="bg-gray-600 text-white font-semibold py-2 rounded"
-                    >
-                      comment
-                    </button>
-                  </form>
-                </div>
-              </div>
+
+              <Comments />
+
               <div className="flex flex-col gap-3 items-center px-4">
                 {like ? (
                   <button
