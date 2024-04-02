@@ -276,7 +276,7 @@ const Profile = () => {
             </form>
           </div>
 
-          <div className="flex flex-col gap-6 items-start">
+          <div className="flex flex-col gap-4 items-start">
             <div className="flex justify-between w-full">
               <h2 className="text-xl text-gray-600 font-semibold">
                 My Listings
@@ -285,14 +285,18 @@ const Profile = () => {
                 className=" cursor-pointer"
                 onClick={() => setShowListings(!showListings)}
               >
-                {showListings ? "- Hide" : "+ Show"}
+                {showListings ? (
+                  <button type="button" className="text-gray-400 bg-white px-2 border border-gray-400 rounded-sm">
+                    - Hide
+                  </button>
+                ) : (
+                  <button type="button" className="text-gray-400 bg-white px-2 border border-gray-400 rounded-sm">
+                    + Show
+                  </button>
+                )}
               </span>
             </div>
-            {showListings ? (
               <UserListing id={currentUser.id} />
-            ) : (
-              <span>click + show</span>
-            )}
           </div>
         </div>
       </div>
