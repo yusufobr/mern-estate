@@ -14,7 +14,7 @@ const FAQ: React.FC = () => {
   return (
     <div className="flex flex-col gap-10 py-20 p-8 bg-gray-50">
       <span className="font-bold text-2xl">(04)We've already answerd</span>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="flex flex-col md:grid md:grid-cols-3 gap-4">
         <div className="mb-4">
           <h2 className="text-[80px] font-bold">FAQ's</h2>
         </div>

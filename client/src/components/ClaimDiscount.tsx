@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const ClaimDiscount = () => {
   return (
     <div className="flex flex-col gap-6 items-center p-8 py-20 font-semibold w-full overflow-hidden">
-      <div className="inline w-full text-[80px] font-medium capitalize text-right">
+      <div className="inline w-full text-4xl md:text-[80px] font-medium capitalize text-right">
         <motion.h2
           className="whitespace-nowrap"
           animate={{
@@ -17,7 +17,7 @@ const ClaimDiscount = () => {
           Claim exciting discounts for new listings
         </motion.h2>
       </div>
-      <div className="flex flex-col gap-3 items-center w-1/2 mx-auto">
+      <div className="flex flex-col gap-3 items-center md:w-1/2 mx-auto">
         <p className="text-center">
             Join us today and take advantage of exclusive new exciting discounts
             designed just for our new customers. Don't miss out on this special

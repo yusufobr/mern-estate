@@ -53,11 +53,11 @@ const LookingFor = () => {
 
       {/* Townhouses */}
       <div className="flex flex-col border-y border-gray-200 cursor-pointer" onClick={()=> setShowedDiv(1)}>
-        <div className="flex justify-between items-center ">
-          <span className="uppercase font-semibold text-[80px]">
+        <div className="flex justify-between items-center py-4 md:py-0 ">
+          <span className="uppercase font-semibold text-4xl md:text-[80px]">
             Townhouses
           </span>
-          <span>30+ Units Available</span>
+          <span className="text-right md:text-left">30+ Units Available</span>
         </div>
         {showedDiv === 1 && (
           <div className="flex flex-col md:grid md:grid-cols-3 gap-8 pb-8">
@@ -85,12 +85,12 @@ const LookingFor = () => {
       </div>
 
       {/* Appartements */}
-      <div className="flex flex-col">
-        <div className="flex justify-between items-center cursor-pointer" onClick={()=> setShowedDiv(2)}>
-          <span className="uppercase font-semibold text-[80px]">
+      <div className="flex flex-col" onClick={()=> setShowedDiv(2)}>
+        <div className="flex justify-between items-center cursor-pointer py-4 md:py-0">
+          <span className="uppercase font-semibold text-4xl md:text-[80px]">
             appartements
           </span>
-          <span>60+ Units Available</span>
+          <span className="text-right md:text-left">60+ Units Available</span>
         </div>
         {showedDiv === 2 && (
           <div className="flex flex-col md:grid md:grid-cols-3 gap-8">
