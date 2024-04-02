@@ -5,6 +5,7 @@ import Hero from "../components/Hero";
 import LookingFor from "../components/LookingFor";
 
 const HomeTwo = () => {
+  document.title = "Explore a wide range of Properties | Home";
   return (
     <div className="">
       <Hero />

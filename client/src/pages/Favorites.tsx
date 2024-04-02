@@ -5,13 +5,16 @@ import ListingCard from "../components/ListingCard";
 import PageHeader from "../components/PageHeader";
 
 const Favorites = () => {
+
+  document.title = "Favorites | Real Estate";
+
   const { currentUser } = useSelector((state: any) => state.user);
   const [list, setList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     favorites();
-    console.log(list);
+    // console.log(list);
   }, []);
 
   const favorites = async () => {

@@ -27,6 +27,9 @@ type ListingProps = {
 };
 
 const CreateListing = () => {
+
+  document.title = "Create Listing | Real Estate";
+
   const { currentUser } = useSelector((state: any) => state.user);
   const navigate = useNavigate();
 

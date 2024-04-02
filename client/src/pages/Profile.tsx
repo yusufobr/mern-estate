@@ -29,6 +29,8 @@ type UserProps = {
 };
 
 const Profile = () => {
+document.title = "My Profile";
+
   const { currentUser, error } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -1,6 +1,8 @@
 import PageHeader from "../components/PageHeader";
 
 const About = () => {
+  document.title = "About Real Estate";
+  
   return (
     <div>
       <PageHeader pageTitle="About" />
