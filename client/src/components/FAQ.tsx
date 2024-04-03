@@ -16,7 +16,7 @@ const FAQ: React.FC = () => {
       <span className="font-bold text-2xl">(04)We've already answerd</span>
       <div className="flex flex-col md:grid md:grid-cols-3 gap-4">
         <div className="mb-4">
-          <h2 className="text-[80px] font-bold">FAQ's</h2>
+          <h2 className="text-4xl md:text-[80px] font-bold">FAQ's</h2>
         </div>
         <div className="col-span-2 flex flex-col gap-4">
           {faqData.map((item, index) => (

@@ -22,9 +22,9 @@ const Hero = () => {
         </h1>
       </div>
 
-      <form className="md:absolute md:bottom-10 flex flex-col gap-2 md:flex-row md:justify-between md:h-10 z-10 md:w-2/3 md:items-center">
-        <div className="flex flex-col gap-1 md:gap-4">
-          <span>Category</span>
+      <form className="bg-black bg-opacity-20 rounded-md md:rounded-none md:bg-transparent backdrop-blur-sm p-2 md:p-0 md:absolute md:bottom-10 flex flex-col gap-2 md:flex-row md:justify-between md:h-10 z-10 md:w-2/3 md:items-center">
+        <div className="flex flex-col md:gap-4">
+          <span className="text-sm font-light md:text-base text-gray-400 md:text-white">Category :</span>
           <select
             name="category"
             id=""
@@ -35,12 +35,12 @@ const Hero = () => {
             <option value="sell">Sell</option>
           </select>
         </div>
-        <div className="flex flex-col gap-1 md:gap-4">
-          <span>Location</span>
+        <div className="flex flex-col md:gap-4">
+          <span className="text-sm font-light md:text-base text-gray-400 md:text-white">Location :</span>
           <AutoComplete />
         </div>
-        <div className="flex flex-col gap-1 md:gap-4">
-          <span>Type</span>
+        <div className="flex flex-col md:gap-4">
+          <span className="text-sm font-light md:text-base text-gray-400 md:text-white">Type :</span>
           <select
             name="category"
             id=""
@@ -51,8 +51,8 @@ const Hero = () => {
             <option value="rent">Studio</option>
           </select>
         </div>
-        <div className="flex flex-col gap-1 md:gap-4">
-          <span>Price</span>
+        <div className="flex flex-col md:gap-4">
+          <span className="text-sm font-light md:text-base text-gray-400 md:text-white">Price :</span>
           <input
             className="bg-transparent pr-4 text-lg md:text-2xl font-bold placeholder-white focus:bg-black rounded-md"
             type="Number"

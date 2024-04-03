@@ -16,8 +16,8 @@ const AutoComplete = () => {
         onSelect={handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className='relative'>
-            <div className="autocomplete-dropdown-container flex flex-col gap-1 absolute bottom-10">
+          <div className='relative w-full'>
+            <div className="autocomplete-dropdown-container flex flex-col gap-1 absolute bottom-10 w-full">
               {loading && <div>Loading...</div>}
               {suggestions.map((suggestion, index) => {
                 return (
@@ -34,7 +34,7 @@ const AutoComplete = () => {
             <input
               {...getInputProps({
                 placeholder: 'Search Places ...',
-                className: 'location-search-input bg-transparent pr-4 text-lg md:text-2xl font-bold placeholder-white focus:bg-black rounded-md',
+                className: 'location-search-input bg-transparent pr-4 text-lg md:text-2xl font-bold placeholder-white focus:bg-black rounded-md w-full',
               })}
             />
             
