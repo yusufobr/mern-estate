@@ -39,7 +39,7 @@ const Statistics = () => {
   };
 
   return (
-    <div className=" grid grid-cols-3 gap-3">
+    <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
       {/* listing */}
       <div className="flex justify-between items-center p-3 bg-gray-100 rounded-md">
         <div className="uppercase">

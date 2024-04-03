@@ -150,7 +150,7 @@ const Post = () => {
                 <div>
                   <div
                     title={post.postedBy.username}
-                    className="rounded-full overflow-hidden border border-gray-200"
+                    className="rounded-full hidden sm:block overflow-hidden border border-gray-200"
                   >
                     <img
                       className="w-8 h-8 object-cover rounded-full"

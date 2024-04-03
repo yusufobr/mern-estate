@@ -149,8 +149,9 @@ document.title = "My Profile";
   return (
     <div className="relative flex flex-col gap-8 pb-20">
       <div className="w-full pt-24 pb-4 bg-gray-200 my-profile-bg">
-        <div className="container p-2 mx-auto max-w-screen-xl flex justify-between">
-          <div className="flex gap-4 items-center">
+        
+        <div className="container flex flex-col md:flex-row justify-between items-start gap-4 md:items-center p-2 mx-auto max-w-screen-xl ">
+          <div className="flex gap-2 md:gap-4 items-center">
             <div className="relative">
               <img
                 src={
@@ -158,11 +159,11 @@ document.title = "My Profile";
                   "https://via.placeholder.com/150"
                 }
                 alt="profile"
-                className="w-20 h-20 rounded-full object-cover border-2 border-gray-300"
+                className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-gray-300"
                 style={uploading ? { filter: "blur(2px)" } : {}}
               />
               <div
-                className="absolute bottom-0 right-0 rounded-full text-gray-400 cursor-pointer"
+                className="absolute bottom-0 right-0 rounded-full p-1 text-white border border-gray-300 cursor-pointer backdrop-blur-sm	"
                 onClick={() => picture.current?.click()}
               >
                 {currentUser.profilePicture ? (
@@ -185,25 +186,26 @@ document.title = "My Profile";
               )}
             </div>
             <div className="flex flex-col">
-              <span className="text-3xl font-semibold">
+              <span className="text-base md:text-3xl font-semibold">
                 {currentUser.username}
               </span>
-              <span className="text-gray-400">{currentUser.email}</span>
+              <span className="text-gray-400 text-sm md:text-base">{currentUser.email}</span>
             </div>
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex flex-wrap gap-2 text-sm">
+
+          <div className="">
+            <div className="flex flex-wrap justify-end gap-2 text-sm">
               <button
                 type="button"
                 onClick={confirmDelete}
-                className="text-white font-semibold bg-red-600 p-2 px-4 rounded-md focus:outline-none"
+                className="text-white bg-red-600 p-1 px-2 rounded-md focus:outline-none"
               >
                 Delete Account
               </button>
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="text-white font-semibold bg-black p-2 px-4 rounded-md focus:outline-none"
+                className="text-white bg-black p-1 px-2 rounded-md focus:outline-none"
               >
                 Sign out
               </button>
@@ -215,7 +217,7 @@ document.title = "My Profile";
       <div className="container p-3 max-w-screen-xl mx-auto flex flex-col gap-10">
         <Statistics />
         
-        <div className="grid grid-cols-2 gap-8 w-full">
+        <div className="flex flex-col-reverse gap-16 md:grid md:grid-cols-2 md:gap-8 w-full">
           <div className="flex flex-col gap-4 items-start">
             <h2 className="text-xl text-gray-600 font-semibold">Update info</h2>
 
