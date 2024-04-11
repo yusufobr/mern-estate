@@ -17,7 +17,7 @@ export const getAllListings = async (req, res, next) => {
   try {
     const listings = await Listing.find(
       {},
-      "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished"
+      "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished propertyType"
     ).sort({ createdAt: -1 });
 
     const promises = listings.map(async (listing) => {
@@ -37,6 +37,7 @@ export const getAllListings = async (req, res, next) => {
         images: listing.images,
         price: listing.discountedPrice,
         category: listing.type,
+        propertyType: listing.propertyType,
         bedroom: listing.bedrooms,
         bathroom: listing.bathrooms,
         parking: listing.parking,
@@ -78,6 +79,7 @@ export const getAll = async (req, res, next) => {
           bathrooms: 1,
           parking: 1,
           furnished: 1,
+          propertyType: 1,
         },
       },
     ];
@@ -92,6 +94,7 @@ export const getAll = async (req, res, next) => {
         images: listing.images,
         price: listing.discountedPrice,
         category: listing.type,
+        propertyType: listing.propertyType,
         bedroom: listing.bedrooms,
         bathroom: listing.bathrooms,
         parking: listing.parking,
@@ -110,7 +113,7 @@ export const getSinglePost = async (req, res, next) => {
   try {
     const listing = await Listing.findById(
       req.params.id,
-      "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished"
+      "name description adress images discountedPrice type userRef bedrooms bathrooms parking furnished propertyType"
     );
 
     const user = await User.findById(listing.userRef);
@@ -125,6 +128,7 @@ export const getSinglePost = async (req, res, next) => {
       images: listing.images,
       price: listing.discountedPrice,
       category: listing.type,
+      propertyType: listing.propertyType,
       bedroom: listing.bedrooms,
       bathroom: listing.bathrooms,
       parking: listing.parking,
@@ -142,7 +146,7 @@ export const getMyListings = async (req, res, next) => {
   try {
     const listing = await Listing.find(
       { userRef: req.params.id },
-      "name description adress images discountedPrice"
+      "name description adress images discountedPrice propertyType"
     ).sort({ createdAt: -1 });
 
     const correctedListings = listing.map((listing) => {
@@ -150,6 +154,7 @@ export const getMyListings = async (req, res, next) => {
         id: listing._id,
         title: listing.name,
         description: listing.description,
+        propertyType: listing.propertyType,
         adress: listing.adress,
         images: listing.images,
         price: listing.discountedPrice,
@@ -197,6 +202,7 @@ export const getSpecificListings = async (req, res, next) => {
           bathrooms: 1,
           parking: 1,
           furnished: 1,
+          propertyType: 1,
         },
       },
       { $sort: { createdAt: -1 } },
@@ -211,6 +217,7 @@ export const getSpecificListings = async (req, res, next) => {
         description: listing.description,
         adress: listing.adress,
         images: listing.images,
+        propertyType: listing.propertyType,
         price: listing.discountedPrice,
         bedroom: listing.bedrooms,
         bathroom: listing.bathrooms,
@@ -280,6 +287,7 @@ export const search = async (req, res, next) => {
     let furnished = req.query.furnished;
     let parking = req.query.parking;
     let type = req.query.type;
+    let propertyType = req.query.propertyType;
 
     if (furnished === undefined || furnished === "false") {
       furnished = { $in: [false, true] };
@@ -293,6 +301,10 @@ export const search = async (req, res, next) => {
       type = { $in: ["sale", "rent"] };
     }
 
+    if (propertyType === undefined || propertyType === "all") {
+      propertyType = { $in: ["house", "apartment", "studio"] };
+    }
+
     const listings = await Listing.aggregate([
       {
         $match: {
@@ -301,6 +313,7 @@ export const search = async (req, res, next) => {
             { type },
             { furnished },
             { parking },
+            { propertyType },
           ],
         },
       },
@@ -329,6 +342,7 @@ export const search = async (req, res, next) => {
           bathrooms: 1,
           parking: 1,
           furnished: 1,
+          propertyType: 1,
         },
       },
     ])
@@ -345,6 +359,7 @@ export const search = async (req, res, next) => {
         images: listing.images,
         price: listing.discountedPrice,
         category: listing.type,
+        propertyType: listing.propertyType,
         bedroom: listing.bedrooms,
         bathroom: listing.bathrooms,
         parking: listing.parking,
