@@ -24,8 +24,8 @@ const Header = () => {
   // }, []);
 
   return (
-    <header className={`z-50 absolute top-0 w-full p-3 `}>
-      <div className="container p-2 flex justify-between md:justify-normal gap-2 md:gap-0 md:grid md:grid-cols-3 mx-auto items-center max-w-screen-xl">
+    <header className={`z-50 absolute top-0 w-full p-3`}>
+      <div className="container p-2 flex justify-between md:justify-normal gap-2 md:gap-0 md:grid md:grid-cols-3 mx-auto items-center max-w-screen-xl backdrop-blur-sm bg-black bg-opacity-10 rounded-full">
         <div>
           <Link to="/">
             <div className="text-purple-700 uppercase font-bold">
