@@ -1,8 +1,11 @@
 const Search = () => {
+
+  document.body.classList.add('search-bg')
+
   return (
-    <div className="container mt-8 p-3 mx-auto max-w-screen-xl">
+    <div className="container my-20 p-3 mx-auto max-w-screen-xl min-h-screen">
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-slate-200 p-5 flex flex-col gap-4 rounded-lg">
+        <div className="backdrop-blur-sm bg-black bg-opacity-5 p-5 flex flex-col gap-4 rounded-lg">
           <div className="flex flex-col gap-1 w-full">
             <span>Search Term :</span>
             <input
@@ -42,7 +45,7 @@ const Search = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-3 bg-slate-100">hello</div>
+        <div className="col-span-3 backdrop-blur-sm bg-black bg-opacity-5">hello</div>
       </div>
     </div>
   );
