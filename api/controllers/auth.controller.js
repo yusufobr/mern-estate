@@ -58,7 +58,7 @@ export const signout = (req, res, next) => {
 }
 
 export const google = async (req, res, next) => {
-  const { name, email, photo } = req.body;
+  const { name, email, photo, googleId } = req.body;
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) {
@@ -72,6 +72,7 @@ export const google = async (req, res, next) => {
         email,
         password: bcryptjs.hashSync(generateRaomPassword, 10),
         profilePicture: photo,
+        googleId,
       });
 
       await newUser.save();
@@ -97,6 +98,11 @@ export const google = async (req, res, next) => {
       // add photo to user if not exist
       if (!validUser.profilePicture || validUser.profilePicture === "") {
         validUser.profilePicture = photo;
+        await validUser.save();
+      }
+
+      if (!validUser.googleId || validUser.googleId === "") {
+        validUser.googleId = googleId;
         await validUser.save();
       }
 

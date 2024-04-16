@@ -22,6 +22,7 @@ const OAuth = () => {
                 name: result.user?.displayName,
                 email: result.user?.email,
                 photo: result.user?.photoURL,
+                googleId: result.user?.uid
             });
 
             const data = await res.data;
