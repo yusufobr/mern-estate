@@ -7,6 +7,11 @@ import PageHeader from "../components/PageHeader";
 
 const Home = () => {
 
+  useEffect(() => {
+    document.body.classList.remove('search-bg')
+    document.body.classList.add('normal-bg')
+  }, [])
+
   const dispatch = useDispatch();
   const { listings, error, loading } = useSelector((state: any) => state.listings);
 

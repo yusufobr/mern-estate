@@ -2,6 +2,7 @@ import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { timeAgo } from "../utils/functions";
 
 const Comments = () => {
   const { id } = useParams();
@@ -56,7 +57,7 @@ const Comments = () => {
       <div className="flex flex-col gap-1 overflow-auto h-80">
         {comments.map((comment, index) => (
           <>
-            <div key={comment._id} className="">
+            <div key={comment._id} className="pt-2">
               <div className="w-10 h-10 rounded-full float-left mr-2">
                 <img
                   src={
@@ -74,9 +75,9 @@ const Comments = () => {
                 <p className="text-sm">{comment.comment}</p>
               </div>
             </div>
-            <div className="flex justify-end">
-              <span className="text-xs text-gray-400">
-                {new Date(comment.createdAt).toLocaleDateString()}
+            <div title={new Date(comment.createdAt).toLocaleDateString()} className="flex justify-end">
+              <span className="text-xs text-gray-400 pr-1">
+                {timeAgo(new Date(comment.createdAt).getTime())}
               </span>
             </div>
             {index !== comments.length - 1 && (
@@ -87,12 +88,14 @@ const Comments = () => {
       </div>
 
       <div className="flex justify-center">
-        <button
-          onClick={() => setCommentLimit(commentLimit + 5)}
-          className="text-blue-500 font-semibold"
-        >
-          More
-        </button>
+        {comments.length > 4 && (
+          <button
+            onClick={() => setCommentLimit(commentLimit + 5)}
+            className="text-blue-500 font-semibold"
+          >
+            More
+          </button>
+        )}
       </div>
       <div className="flex flex-col gap-2 py-3">
         <div className="text-sm font-semibold text-center text-gray-800">

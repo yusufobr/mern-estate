@@ -37,7 +37,7 @@ const Header = () => {
         <nav className="hidden md:block">
           <ul className="flex gap-3 text-white font-semibold items-center justify-center">
             <li className="hidden lg:block cursor-pointer hover:text-slate-500">
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li className="hidden lg:block cursor-pointer hover:text-slate-500">
               <Link to="/about">About</Link>

@@ -1,8 +1,11 @@
 import bgImg from "../assets/home-bg.jpg";
 import { CiSearch } from "react-icons/ci";
 import AutoComplete from "./AutoComplete";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+
+  const navigate = useNavigate();
   
   return (
     <section
@@ -60,7 +63,7 @@ const Hero = () => {
             min="100"
           />
         </div>
-        <div className="flex flex-col justify-center items-center rounded-full h-10 w-10 md:h-14 md:w-14 bg-white text-black hover:bg-[#ffffffe4] hover:cursor-pointer">
+        <div onClick={() => navigate("/search")} className="flex flex-col justify-center items-center rounded-full h-10 w-10 md:h-14 md:w-14 bg-white text-black hover:bg-[#ffffffe4] hover:cursor-pointer">
           <CiSearch size={32} />
         </div>
       </form>

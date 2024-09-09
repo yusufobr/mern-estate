@@ -34,7 +34,7 @@ const OAuth = () => {
         }
     }
   return (
-    <button className="border p-3 bg-slate-50 rounded-md focus:outline-none" type="button" onClick={handleClick}>
+    <button className="border p-3 bg-slate-50 rounded-md focus:outline-none w-full" type="button" onClick={handleClick}>
         Continue with Google {" "}
         <FcGoogle size={24} className="inline-block ml-2" />
     </button>

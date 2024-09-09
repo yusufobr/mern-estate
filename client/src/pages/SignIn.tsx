@@ -53,7 +53,7 @@ const SignIn = () => {
   return (
     <div>
       <PageHeader pageTitle="Sign In" />
-      <div className="container py-16 p-3 max-w-2xl mx-auto flex flex-col gap-6 items-center">
+      <div className="container py-16 p-3 max-w-2xl mx-auto flex flex-col gap-10 items-center">
         <div>
           <h2 className="font-bold text-2xl">Welcome back</h2>
           <span>Please enter your details.</span>

@@ -359,21 +359,26 @@ const CreateListing = () => {
             </div>
           </form>
         </div>
+        
         <div className="flex flex-col gap-4 p-3">
           <div className="grid grid-cols-3 gap-2">
-            <div
-              className="flex flex-col justify-center items-center col-span-2 bg-gray-50 rounded-xl border-2 border-gray-200 border-dotted h-full w-full cursor-pointer"
-              onClick={() => pictures.current?.click()}
-            >
-              <div className="flex flex-col items-center">
-                <LuPlus size={25} />
-                {images.length > 0 ? (
-                  <span>{images.length} images selected</span>
-                ) : (
-                  <span className="text-sm">Add Images</span>
-                )}
+            <div className="col-span-2">
+              <div
+                className="flex flex-col justify-center items-center bg-gray-50 rounded-xl border-2 border-gray-200 border-dotted h-full w-full cursor-pointer"
+                onClick={() => pictures.current?.click()}
+              >
+                <div className="flex flex-col items-center">
+                  <LuPlus size={25} />
+                  {images.length > 0 ? (
+                    <span>{images.length} images selected</span>
+                  ) : (
+                    <span className="text-sm">Add Images</span>
+                  )}
+                </div>
               </div>
+              <div className="text-center text-sm text-gray-400"><span>add atleast one Image</span></div>
             </div>
+            
             <div className="flex flex-col gap-2 py-[2px]">
               <button
                 type="button"

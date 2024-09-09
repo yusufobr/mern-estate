@@ -11,7 +11,7 @@ const Footer = () => {
   const { currentUser } = useSelector((state: any) => state.user);
 
   return (
-    <div className="text-black p-4 bg-gray-50">
+    <div className="text-black p-4 bg-gray-50 backdrop-blur-sm bg-opacity-50">
       <div className="flex flex-col gap-2 items-center sm:grid sm:grid-cols-3">
         <span className="font-bold">@Real Estate | All Rights Reserved</span>
 

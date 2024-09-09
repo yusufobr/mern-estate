@@ -236,10 +236,11 @@ document.title = "My Profile";
                 }
               />
               <input
-                className="border p-3 rounded-md focus:outline-none"
+                className="border p-3 rounded-md focus:outline-none text-gray-500"
                 type="email"
                 placeholder="Email"
                 id="email"
+                disabled
                 defaultValue={currentUser.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })

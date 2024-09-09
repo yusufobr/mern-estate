@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
   type User = {
@@ -60,8 +61,22 @@ const SignUp = () => {
   return (
     <div>
       <PageHeader pageTitle="Sign Up" />
-      <div className="container mt-8 p-3 max-w-2xl mx-auto flex flex-col gap-6 items-center">
-        <form className="flex flex-col space-y-3 w-full" onSubmit={handleSubmit}>
+      <div className="container mt-8 p-3 max-w-2xl mx-auto flex flex-col gap-10 items-center">
+        <div className="text-center">
+          <h2 className="font-bold text-2xl">Create an account</h2>
+          <span>
+            Unlock endless real estate opportunities by signing up now!
+          </span>
+        </div>
+
+        <OAuth />
+
+        <span className="text-gray-400 font-semibold -my-8">Or :</span>
+
+        <form
+          className="flex flex-col space-y-3 w-full"
+          onSubmit={handleSubmit}
+        >
           <input
             value={user.username}
             className="border p-3 rounded-md focus:outline-none"

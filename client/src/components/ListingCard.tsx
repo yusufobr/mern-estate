@@ -69,7 +69,7 @@ const ListingCard = ({
                 <img
                   className="object-cover w-full h-48"
                   src={image}
-                  alt="test"
+                  alt={title}
                   loading="lazy"
                 />
               </div>

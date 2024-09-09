@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const ClaimDiscount = () => {
   return (
-    <div className="flex flex-col gap-6 items-center p-8 py-20 font-semibold w-full overflow-hidden">
+    <div className="flex flex-col gap-6 items-center p-8 py-20 font-semibold w-full overflow-hidden bg-white">
       <div className="inline w-full text-4xl md:text-[80px] font-medium capitalize text-right">
         <motion.h2
           className="whitespace-nowrap"

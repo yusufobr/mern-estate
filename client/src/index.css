@@ -32,9 +32,22 @@ body {
 }
 
 
-/* .search-bg {
-  background-image: url('./assets/searchBg.svg');
+.search-bg {
+  /* background-image: url('./assets/searchBg.svg');
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: rgba(255, 255, 255, 0.5);
-} */
+  background-color: rgba(255, 255, 255, 0.5); */
+  background: rgb(2,0,36);
+  background: linear-gradient(135deg, rgb(1, 0, 26) 0%, rgb(13, 13, 53) 41%, rgb(14, 21, 23) 100%);
+}
+
+.normal-bg {
+  background-color: #fff;
+}
+
+.bg-search {
+  background-image: url('./assets/bg-search.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
