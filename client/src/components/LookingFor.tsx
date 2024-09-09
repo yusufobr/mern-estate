@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Img1 from "../assets/12.jpg";
 import axios from "axios";
 import { formatMoneyNumber } from "../utils/functions";
 import { useNavigate } from "react-router-dom";
