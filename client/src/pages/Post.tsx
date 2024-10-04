@@ -199,7 +199,7 @@ const Post = () => {
 
               <div>
                 <span>About</span>
-                <p className="text-lg">{post?.description}</p>
+                <p className="text-lg" dangerouslySetInnerHTML={{ __html: post?.description }} ></p>
               </div>
               <p className="text-lg">{post?.category}</p>
               <div>
@@ -209,7 +209,7 @@ const Post = () => {
 
               <ImageViewer images={post?.images || []} />
             </div>
-            <div className="flex flex-col gap-3 overflow-hidden bg-white pb-8">
+            <div className="flex flex-col gap-3 rounded-lg overflow-hidden bg-white pb-8">
               <div className="bg-black text-white font-semibold text-3xl p-7">
                 <p>
                   {formatMoneyNumber(post?.price)}
