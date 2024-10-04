@@ -45,7 +45,7 @@ const UserListing = ({ id }: User) => {
       {listing.map((listing: any, index: number) => (
         <div
           key={index}
-          className="relative bg-gray-100 p-3 rounded-md cursor-pointer hover:bg-slate-200"
+          className="relative bg-white border border-gray-300 p-3 rounded-md cursor-pointer hover:bg-slate-200"
           onClick={() => navigate(`/post/${listing.id}`)}
         >
           <UserListingCard
@@ -57,14 +57,14 @@ const UserListing = ({ id }: User) => {
           />
           <div className="absolute top-3 right-2 z-10 flex gap-1 text-sm">
             <button
-              className="bg-black bg-opacity-10 p-1 text-white rounded-md backdrop-blur-sm hover:bg-red-500 hover:bg-opacity-90 transition delay-150 duration-150"
+              className="bg-black bg-opacity-20 p-1 text-white rounded-md backdrop-blur-sm hover:bg-red-500 hover:bg-opacity-90 transition delay-150 duration-150"
               onClick={() => deleteaListing(listing.id)}
               title="Delete Listing"
             >
               <FaDeleteLeft size={14} />
             </button>
             <button
-              className="bg-black bg-opacity-10 p-1 text-white rounded-md backdrop-blur-sm hover:bg-blue-500 hover:bg-opacity-90 transition delay-150 duration-150"
+              className="bg-black bg-opacity-20 p-1 text-white rounded-md backdrop-blur-sm hover:bg-blue-500 hover:bg-opacity-90 transition delay-150 duration-150"
               onClick={() => navigate(`/update/${listing.id}`)}
               title="Edit Listing"
             >
