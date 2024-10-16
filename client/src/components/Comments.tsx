@@ -66,6 +66,10 @@ const Comments = () => {
                   }
                   alt={comment.userDetails.username}
                   className="w-10 h-10 rounded-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://via.placeholder.com/150"; // Fallback if image fails to load
+                  }}
                 />
               </div>
               <div className="flex flex-col gap-1">

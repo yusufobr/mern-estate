@@ -159,6 +159,10 @@ const ListingCard = ({
                 src={postedBy?.avatar || "https://via.placeholder.com/150"}
                 alt={postedBy?.username}
                 className="w-full h-full rounded-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "https://via.placeholder.com/150"; // Fallback if image fails to load
+                }}
               />
             </div>
           )}

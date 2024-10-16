@@ -159,6 +159,10 @@ const Post = () => {
                         "https://via.placeholder.com/150"
                       }
                       alt=""
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "https://via.placeholder.com/150"; // Fallback if image fails to load
+                      }}
                     />
                   </div>
                 </div>
