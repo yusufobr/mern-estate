@@ -39,23 +39,6 @@ const SignUp = () => {
       setLoading(false);
       setError(error?.response?.data?.message);
     }
-
-    // setLoading(true);
-    // const res = await fetch("/api/auth/signup", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(user),
-    // });
-    // const data = await res.json();
-    // if (data.success === false) {
-    //   setLoading(false);
-    //   setError(data.message);
-    // } else {
-    // setLoading(false);
-    // navigate("/signin");
-    // }
   };
 
   return (
