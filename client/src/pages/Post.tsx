@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import ImageViewer from "../components/ImageViewer";
 import { firePreview, formatMoneyNumber } from "../utils/functions";
 import Comments from "../components/Comments";
+import RecentlyBrowsed from "../components/RecentlyBrowsed";
 
 type PostProps = {
   id: string;
@@ -58,13 +59,22 @@ const Post = () => {
               setLike(res.data);
             });
         }
+        window.scrollTo(0, 0);
       } catch (error) {
         navigate("/404");
       }
     };
 
     fetchPost();
-  }, [like]);
+  }, [like, currentUser, id]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        addBrowsingHistory();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [currentUser, id]);
 
   const addLike = async () => {
     if (currentUser) {
@@ -87,6 +97,15 @@ const Post = () => {
     });
     if (res.status === 200) {
       setLike(false);
+    }
+  };
+
+  const addBrowsingHistory = async () => {
+    if (currentUser) {
+      await axios.post("/api/browsing/add", {
+        userId: currentUser.id,
+        listingId: id,
+      });
     }
   };
 
@@ -168,37 +187,43 @@ const Post = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 text-sm font-semibold">
-                <div
-                  className="flex gap-2 items-center px-2 py-1 border"
-                  title="bedrooms"
-                >
-                  <span>{post?.bedroom}</span>
-                  <FaBed size={16} className="text-gray-600" />
-                </div>
-                <div
-                  className="flex gap-2 items-center px-2 py-1 border"
-                  title="bathrooms"
-                >
-                  <span>{post?.bathroom}</span>
-                  <FaBath size={16} className="text-gray-600" />
-                </div>
-                {post?.furnished && (
+              <div className="flex justify-between text-sm font-semibold">
+                <div className="flex items-center gap-3">
                   <div
                     className="flex gap-2 items-center px-2 py-1 border"
-                    title="Furnished"
+                    title="bedrooms"
                   >
-                    <MdChair size={18} className="text-gray-600" />
+                    <span>{post?.bedroom}</span>
+                    <FaBed size={16} className="text-gray-600" />
                   </div>
-                )}
-                {post?.parking && (
                   <div
                     className="flex gap-2 items-center px-2 py-1 border"
-                    title="Parking"
+                    title="bathrooms"
                   >
-                    <FaParking size={16} className="text-gray-600" />
+                    <span>{post?.bathroom}</span>
+                    <FaBath size={16} className="text-gray-600" />
                   </div>
-                )}
+                  {post?.furnished && (
+                    <div
+                      className="flex gap-2 items-center px-2 py-1 border"
+                      title="Furnished"
+                    >
+                      <MdChair size={18} className="text-gray-600" />
+                    </div>
+                  )}
+                  {post?.parking && (
+                    <div
+                      className="flex gap-2 items-center px-2 py-1 border"
+                      title="Parking"
+                    >
+                      <FaParking size={16} className="text-gray-600" />
+                    </div>
+                  )}
+                </div>
+                <div className="px-2 py-1 border text-gray-600">
+                  <span>{post.likes}</span>
+                  <span>{post.likes > 1 ? " Likes" : " Like"}</span>
+                </div>
               </div>
 
               <div>
@@ -206,10 +231,6 @@ const Post = () => {
                 <p className="text-lg" dangerouslySetInnerHTML={{ __html: post?.description }} ></p>
               </div>
               <p className="text-lg">{post?.category}</p>
-              <div>
-                <span>{post.likes}</span>
-                <span>{post.likes > 1 ? " Likes" : " Like"}</span>
-              </div>
 
               <ImageViewer images={post?.images || []} />
             </div>
@@ -252,6 +273,9 @@ const Post = () => {
               </div>
             </div>
           </div>
+
+          {currentUser && <RecentlyBrowsed />
+          }
         </div>
       )}
     </>
