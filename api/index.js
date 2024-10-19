@@ -6,6 +6,7 @@ import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import likeRouter from "./routes/like.route.js";
 import commentRouter from "./routes/comment.route.js";
+import browsingRouter from "./routes/browsing.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 
@@ -42,6 +43,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
 app.use("/api/like", likeRouter);
 app.use("/api/comment", commentRouter);
+app.use("/api/browsing", browsingRouter);
 
 // 
 app.use(express.static(path.join(__dirname, "/client/dist")));
