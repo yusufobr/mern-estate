@@ -42,7 +42,7 @@ const ListingCard = ({
   const { currentUser } = useSelector((state: any) => state.user);
 
   return (
-    <div className="max-w-sm flex flex-col h-full bg-white border border-gray-200 hover:border-transparent hover:shadow-md transition delay-150 duration-150">
+    <div className="max-w-sm min-w-[300px] flex flex-col h-full bg-white border border-gray-200 hover:border-transparent hover:shadow-md transition delay-150 duration-150">
       <div>
         {images.length === 0 ? (
           <div className="flex flex-col items-center justify-center w-full h-48 bg-slate-100 text-slate-300">
